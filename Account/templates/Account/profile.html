@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/main.css'%} " />
+</head>
+
+<body class="overflow-x-hidden">
+
+    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="{% static 'img/herald-white-logo.png' %}" class="h-10" alt="Flowbite Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
+            </a>
+            <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <button type="button"
+                    class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+                    data-dropdown-placement="bottom">
+                    <span class="sr-only">Open user menu</span>
+                    <img class="w-8 h-8 rounded-full" src="{% static 'img/user-1.jpg' %}" alt="user photo">
+                </button>
+                <!-- Dropdown menu -->
+                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                    id="user-dropdown">
+                    <div class="px-4 py-3">
+                        <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
+                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                    </div>
+                    <ul class="py-2" aria-labelledby="user-menu-button">
+                        <li>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
+                                out</a>
+                        </li>
+                    </ul>
+                </div>
+                <button data-collapse-toggle="navbar-user" type="button"
+                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    aria-controls="navbar-user" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M1 1h15M1 7h15M1 13h15" />
+                    </svg>
+                </button>
+            </div>
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
+                <ul
+                    class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                    <li>
+                        <a href="#"
+                            class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
+                            aria-current="page">Home</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <section class=" items-center justify-center h-screen w-screen">
+
+        <div class="flex flex-col items-center justify-center space-y-8 ">
+
+            <!-- Profile Section -->
+            <div class="w-3/5 p-4 mt-10 text-center flex items-center  rounded-lg">
+                <!-- First Quarter -->
+                <div class="w-50 p-4 mt-10 text-center">
+                    <img src="{{ user.profile.image.url }}" alt="Profile Image" class="rounded-full w-32 h-32 object-cover mx-auto mb-4">
+
+                </div>
+
+                <!-- Second Quarter -->
+                <div class="w-60 p-4 mt-4 text-left space-y-2"> 
+                    <h1 class="text-xl font-medium">{{user.username | title}}</h1>
+                    <p class="max-w-sm text-gray-500">
+                        Member since 1 year ago<br>
+                    </p>
+                    <div class="flex items-center space-x-4">
+                        <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                        <span class="text-green-500">Active</span>
+                    </div>
+                </div>
+
+                <!-- Edit Profile Button -->
+                <div class="flex-shrink-0 ml-auto"> <!-- Use ml-auto for pushing it to the right -->
+                    <button type="button"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="{% url 'editprofile' %}">Edit
+                        Profile</a></button>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="w-3/5">
+                <h2 class="text-2xl font-semibold mb-2">About Me</h2>
+                <p class="text-gray-600">
+                   {% comment %} Hello
+                    Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam vehicula
+                    elementum sed sit amet dui. Cras ultricies ligula magna dictum porta. Vestibulum ante ipsum primis
+                    in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet
+                    aliquam vel, ullamcorper sit amet ligula. Vestibulum ac diam sit amet quam vehicula elementum sed
+                    sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus suscipit tortor eget
+                    felis porttitor volutpat faucibus orci luctus et ultrices posuere .
+
+                    Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Proin eget tortor risus. Nulla quis
+                    lorem ut libero malesuada feugiat. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Sed
+                    porttitor lectus nibh. Proin eget tortor risus blandit aliquet elit, eget tincidunt nibh.  {% endcomment %}
+
+                    {{user.profile.about}}
+                </p>
+
+                <br>
+
+                <h2 class="text-2xl font-semibold mb-2 ">Academic Information</h2>
+
+                <div class="flex">
+
+                    <!-- For Students -->
+                    <div class="flex-1 mb-4 mr-4"> <!-- flex-1 to take up available space, mr-4 for right margin -->
+                        <h3 class="text-md font-medium mb-1">Student Details</h3>
+                        <p class="max-w-md">
+                            Major: Computer Science<br>
+                            Year: Junior<br>
+                            Academic Achievements: Dean's List, Fall 2022
+                        </p>
+                    </div>
+
+                    <!-- For Faculty -->
+                    <div class="flex-1">
+                        <h3 class="text-md font-medium mb-1">Faculty Details</h3>
+                        <p class="max-w-md ">
+                            Department: Computer Science<br>
+                            Position: Assistant Professor<br>
+                            Areas of Expertise: Artificial Intelligence, Machine Learning
+                        </p>
+                    </div>
+
+                </div>
+                <br>
+
+                <h2 class="text-2xl font-semibold mb-2">Professional Experience</h2>
+                <p class="max-w  ">
+                    Assistant Professor - Computer Science, XYZ University (2018-present)<br>
+                    Ph.D. in Computer Science, ABC University (2015-2018)<br>
+                    Researcher at Institute of Technology, Research City (2012-2015)
+                </p>
+
+                <br>
+
+                <h2 class="text-2xl font-semibold mb-2">Interests and Hobbies</h2>
+
+
+
+                <div class="flex">
+                    <!-- For Interest -->
+                    <div class="flex-1 mb-4 mr-4"> <!-- flex-1 to take up available space, mr-4 for right margin -->
+                        <h3 class="text-md font-medium mb-1">Interest</h3>
+                        <li>Data Science</li>
+                        <li>Robotics</li>
+                        <li>Educational Technology</li>
+                    </div>
+
+                    <!-- For Hobbies -->
+                    <div class="flex-1 mb-4 mr-4"> <!-- flex-1 to take up available space, mr-4 for right margin -->
+                        <h3 class="text-md font-medium mb-1">Hobbies</h3>
+                        <li>Reading</li>
+                        <li>Hiking</li>
+                        <li>Playing the Guitar</li>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
