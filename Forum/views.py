@@ -1,5 +1,5 @@
 from typing import Any
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, DetailView , CreateView, UpdateView, DeleteView
 from .models import Question, Comment
@@ -8,22 +8,38 @@ from django.urls import reverse, reverse_lazy
 
 
 
-def like_views(request,pk):
-    post = get_object_or_404(Question,id=request.POST.get('question_post'))
+def like_views(request, pk):
+    post = get_object_or_404(Question, id=pk)
     liked = False
-    if post.likes.filter(id.request.user.id).exist():
-        post.likes.remove(request.user)
+    if post.upvote.filter(id=request.user.id).exists():
+        post.upvote.remove(request.user)
         liked = False
     else:
-        post.likes.add(request.user)
+        post.upvote.add(request.user)
         liked = True
-    return HttpResponseRedirect(reverse('Questiondetail',args=[str(pk)]))
+    return HttpResponseRedirect(reverse('Questiondetail', args=[str(pk)]))
+
+def get_like_count(request, pk):
+    question = get_object_or_404(Question, id=pk)
+    total_likes = question.total_likes()
+    return JsonResponse({'total_likes': total_likes})
+
     
 class QuestionListView(LoginRequiredMixin,ListView):
     model = Question
     template_name = 'Forum/forum.html'
     context_object_name = 'questions'
     ordering = ['-date_created']
+    
+    
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search_data = self.request.GET.get('search-area') or ""
+        if search_data:
+            context['questions'] = context['questions'].filter(title__icontains=search_data)
+            context['search_data'] = search_data
+        return context
+    
 
 
 class QuestionDetailView(LoginRequiredMixin,DetailView):
@@ -37,20 +53,20 @@ class QuestionDetailView(LoginRequiredMixin,DetailView):
         Comment.objects.create(question=question, user=request.user, content=content)
         return redirect('Questiondetail', pk=question.pk)
     
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super(QuestionDetailView, self).get_context_data()
-    #     something = get_object_or_404(Question,id=self.kwargs['pk'])
-    #     total_likes = something.total_likes()
-    #     liked = False
-        
-    #     if something.likes.filter(id=self.request.user.id).exist():
-    #         liked = True
-            
-    #     context['total_likes'] = total_likes
-    #     context['liked'] = liked
-        
-    #     return context
-        
+    def get_context_data(self, *args, **kwargs):
+        context = super(QuestionDetailView, self).get_context_data(*args, **kwargs)
+        something = get_object_or_404(Question, id=self.kwargs['pk'])
+        total_likes = something.total_likes()
+        liked = False
+
+        if something.upvote.filter(id=self.request.user.id).exists():
+            liked = True
+
+        context['total_likes'] = total_likes
+        context['liked'] = liked
+
+        return context
+
         
 
 class QuestionCreateView(LoginRequiredMixin,CreateView):
@@ -93,4 +109,6 @@ class QuestionDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
             return True
         else:
             return False
+
+
 

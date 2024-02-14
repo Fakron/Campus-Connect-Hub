@@ -13,159 +13,86 @@
 
 <body class="overflow-x-hidden">
   <nav class="bg-white border-gray-200 dark:bg-gray-900">
-    <div
-      class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
-    >
-      <a
-        href="https://flowbite.com/"
-        class="flex items-center space-x-3 rtl:space-x-reverse"
-      >
-        <img
-          src="{% static 'img/herald-white-logo.png' %}"
-          class="h-8"
-          alt="Flowbite Logo"
-        />
-        <span
-          class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-        ></span>
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <img src="{% static 'img/herald-white-logo.png' %}" class="h-8" alt="Flowbite Logo" />
+        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
       </a>
-      <div
-        class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse"
-      >
-        <button
-          type="button"
+      <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <button type="button"
           class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-          id="user-menu-button"
-          aria-expanded="false"
-          data-dropdown-toggle="user-dropdown"
-          data-dropdown-placement="bottom"
-        >
+          id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+          data-dropdown-placement="bottom">
           <span class="sr-only">Open user menu</span>
-          <img
-            class="w-8 h-8 rounded-full"
-            src="{% static 'img/user-1.jpg'%}"
-            alt="user photo"
-          />
+          <img class="w-8 h-8 rounded-full" src="{% static 'img/user-1.jpg'%}" alt="user photo" />
         </button>
         <!-- Dropdown menu -->
         <div
           class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-          id="user-dropdown"
-        >
+          id="user-dropdown">
           <div class="px-4 py-3">
-            <span class="block text-sm text-gray-900 dark:text-white"
-              >Bonnie Green</span
-            >
-            <span
-              class="block text-sm text-gray-500 truncate dark:text-gray-400"
-              >name@flowbite.com</span
-            >
+            <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
+            <span class="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
           </div>
           <ul class="py-2" aria-labelledby="user-menu-button">
             <li>
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >Dashboard</a
-              >
+              <a href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
             </li>
             <li>
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >Settings</a
-              >
+              <a href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
             </li>
             <li>
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >Earnings</a
-              >
+              <a href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
             </li>
             <li>
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >Sign out</a
-              >
+              <a href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
+                out</a>
             </li>
           </ul>
         </div>
-        <button
-          data-collapse-toggle="navbar-user"
-          type="button"
+        <button data-collapse-toggle="navbar-user" type="button"
           class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          aria-controls="navbar-user"
-          aria-expanded="false"
-        >
+          aria-controls="navbar-user" aria-expanded="false">
           <span class="sr-only">Open main menu</span>
-          <svg
-            class="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15" />
           </svg>
         </button>
       </div>
-      <div
-        class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-        id="navbar-user"
-      >
+      <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
         <ul
-          class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
-        >
-          
-        <li>
-          <a
-            href="{% url 'Questionlist' %}"
-            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" 
-            >Home</a
-          >
-        </li>
+          class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
 
           <li>
-              <a
-                href="#"
-                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                >About</a
-              >
-            </li>
-
-         
+            <a href="{% url 'Questionlist' %}"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Home</a>
+          </li>
 
           <li>
-            <a
-              href="index.html"
-              class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-              
-              >Forum</a
-            >
+            <a href="#"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
+          </li>
+
+
+
+          <li>
+            <a href="index.html"
+              class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">Forum</a>
           </li>
           <li>
-            <a
-              href="#"
-              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >Community</a
-            >
+            <a href="#"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Community</a>
           </li>
           <li>
-            <a
-              href="#"
-              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >Event</a
-            >
+            <a href="#"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Event</a>
           </li>
-         
+
         </ul>
       </div>
     </div>
@@ -234,26 +161,25 @@
   <div class="tab-pane fade active show" id="recent-questions" role="tabpanel" aria-labelledby="recent-questions-tab">
     <div class="single-qa-box bg-white shadow-md p-8 border-b-5 border-f5f5f5 relative">
       <div class="flex">
-        <div class="link-unlike flex-shrink-0 text-center">
-          <a href="user.html">
-            <img src="{% static 'img/user-1.jpg'%}" alt="Image" class="mb-8 rounded-full"
-              style="width: 50px; height: 50px" />
-          </a>
-          <div class="donet-like-list">
-            <button class="like-unlink-count like">
-              <i class="ri-thumb-up-fill text-2xl"></i><br />
-              <span>4974</span>
-            </button>
+
+        <form id="likeForm" action="{% url 'like_post' question.pk %}" method="POST">
+          {% csrf_token %}
+          <div class="link-unlike flex-shrink-0 text-center">
+            <a href="user.html">
+              <img src="{% static 'img/user-1.jpg'%}" alt="Image" class="mb-8 rounded-full"
+                style="width: 200px; height: 50px" />
+            </a>
+            <div class="donet-like-list">
+              <button id="likeButton" class="like-unlink-count like" name="upvote">
+                <i class="ri-thumb-up-fill text-2xl"></i><br />
+                <span>{{ question.total_likes }}</span>
+              </button>
+            </div>
+            <br />
+
           </div>
-          <br />
-          <!-- Dislike button -->
-          <div class="donet-like-list">
-            <button class="like-unlink-count dislike">
-              <i class="ri-thumb-down-fill text-2xl"></i><br />
-              <span>25</span>
-            </button>
-          </div>
-        </div>
+        </form>
+
 
         <div class="flex-grow-1 ms-3">
           <ul class="graphic-design flex items-center space-x-4">
@@ -273,9 +199,9 @@
 
           <br />
           <h3 class="font-semibold text-xl mb-4">
-            <a href="queations-details.html">
-              {{question.title}}
-            </a>
+
+            {{question.title}}
+
           </h3>
 
           <p class="mb-8">
@@ -322,8 +248,13 @@
             {% if user.is_authenticated and question.user == user %}
             <div>
               <!-- Update button -->
-              <button type="button"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update</button>
+              <a href="{% url 'Questionupdate' object.pk%}">
+                <button type="button"
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                  Update
+                </button>
+              </a>
+
 
               <!-- Delete button with confirmation dialog -->
               <button type="button"
@@ -385,7 +316,7 @@
           <a href="user.html">
             <img src="{% static 'img/user-1.jpg' %} " alt="Image" class="mb-8 rounded-full" />
           </a>
-          <div class="donet-like-list">
+          <!-- <div class="donet-like-list">
             <button class="like-unlink-count like">
               <i class="ri-thumb-up-fill text-2xl"></i><br />
               <span>4974</span>
@@ -393,12 +324,12 @@
           </div>
           <br />
           <!-- Dislike button -->
-          <div class="donet-like-list">
+          <!-- <div class="donet-like-list">
             <button class="like-unlink-count dislike">
               <i class="ri-thumb-down-fill text-2xl"></i><br />
               <span>25</span>
             </button>
-          </div>
+          </div> -->
         </div>
 
         <div class="flex-grow-1 ms-3">
@@ -432,6 +363,7 @@
 
     <br>
     <br>
+    <h1 class="ml-5 text-2xl font-semibold">Write Your Answer</h1><br>
     <form id="answerForm" class="bg-white" method="post" onsubmit="return validateForm()">
       {% csrf_token %}
       <div class="w-50 ml-5 mr-5 mb-4 border border-gray-200 rounded-lg bg-white dark:border-gray-600">
@@ -680,12 +612,40 @@
         return true; // Allow form submission
       }
     </script>
-    
+
     <script>
       document.getElementById('publishButton').addEventListener('click', function () {
         document.getElementById('answerForm').submit();
       });
     </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Function to update like count
+        function updateLikeCount() {
+          $.ajax({
+            type: 'GET',
+            url: '{% url "get_like_count" question.pk %}',
+            success: function (response) {
+              // Update the like count dynamically
+              $('#likeButton span').text(response.total_likes);
+            },
+            error: function (xhr, errmsg, err) {
+              // Handle errors if any
+              console.log(xhr.status + ": " + xhr.responseText); // Log the error
+            }
+          });
+        }
+        // Initial call to update like count
+        updateLikeCount();
+
+        // Polling for updates every 5 seconds (adjust interval as needed)
+        setInterval(updateLikeCount, 5000);
+      });
+    </script>
+
 
 
 </body>
