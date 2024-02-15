@@ -24,7 +24,10 @@ def get_like_count(request, pk):
     total_likes = question.total_likes()
     return JsonResponse({'total_likes': total_likes})
 
-    
+
+def event(request):
+    return render(request,"event.html")
+
 class QuestionListView(LoginRequiredMixin,ListView):
     model = Question
     template_name = 'Forum/forum.html'
