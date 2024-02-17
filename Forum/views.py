@@ -26,7 +26,7 @@ def get_like_count(request, pk):
 
 
 def event(request):
-    return render(request,"event.html")
+    return render(request,"Forum/event.html")
 
 class QuestionListView(LoginRequiredMixin,ListView):
     model = Question
