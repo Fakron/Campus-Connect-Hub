@@ -4,6 +4,7 @@ module.exports = {
   
     './Account/templates/**/*.html',
     './Forum/templates/**/*.html',
+    './Event/templates/**/*.html',
 
   ],
   theme: {
