@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Account',
     'Forum',
     'Event',
+    'Community',
     'crispy_forms',
     'crispy_bootstrap4',
 
