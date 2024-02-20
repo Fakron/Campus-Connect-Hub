@@ -27,6 +27,7 @@ urlpatterns = [
     path('forum/',include("Forum.urls")),
     path('event/',include("Event.urls")),
     path('', TemplateView.as_view(template_name='Account/home.html'), name='home'),
+    path('community/',include("Community.urls")),
 ]
 
 if settings.DEBUG:

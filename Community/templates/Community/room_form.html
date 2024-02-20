@@ -7,6 +7,17 @@
 </head>
 <body>
     
-    <h1>{{room.id}} --- {{room.name}}</h1>
+   <div>
+
+    <form method="POST" action="{% url 'create-room' %}">
+
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="Submit" value="submit">
+
+    </form>
+   </div>
+
+
 </body>
 </html>
