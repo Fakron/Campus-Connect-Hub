@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileUpdateForm, UserUpdateForm,UserRegisterForm
@@ -44,6 +44,9 @@ def user_register(request):
 
 
 def user_login(request):
+    
+    if request.user.is_authenticated:
+        return redirect('home')
 
     if request.method=='POST':
         username = request.POST.get('username')
@@ -58,6 +61,11 @@ def user_login(request):
             messages.error(request,'Invalid Login Credentials.')
 
     return render(request,'Account/login.html')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
 
 @login_required
 def user_profile(request):
