@@ -23,9 +23,11 @@ def community(request):
     
     topics = Topic.objects.all()
     room_count = rooms.count()
+
+    recent_activity = Message.objects.filter(Q(room__topic__name__icontains=q))
     
     print(room_count)
-    return render(request,"Community/community.html",{'rooms':rooms, 'topics':topics, 'room_count':room_count})
+    return render(request,"Community/community.html",{'rooms':rooms, 'topics':topics, 'room_count':room_count,'recent_activity':recent_activity})
 
 
 @login_required(login_url='')
@@ -56,7 +58,9 @@ def createRoom(request):
     if request.method == "POST":
         form = RoomForm(request.POST)
         if form.is_valid():
-            form.save()
+            room = form.save(commit=False)
+            room.host = request.user
+            room.save()
             return redirect('community')
         # else:
         #     form = RoomForm()
