@@ -1,25 +1,17 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Community</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" />
   <link rel="stylesheet" href="{% static 'css/main.css'%}" />
-
-  <style>
-    .home-container {
-
-      display: grid;
-      grid-template-columns: 1fr 3fr 1fr;
-
-    }
-  </style>
 </head>
 
-<body>
+<body class="">
 
   <nav class="bg-white border-gray-200 dark:bg-gray-900">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -35,13 +27,6 @@
           <span class="sr-only">Open user menu</span>
           <img class="w-8 h-8 rounded-full" src="{% static 'img/user-1.jpg'%}" alt="user photo" />
         </button>
-
-        {% if request.user.is_authenticated %}
-        <a href="{% url 'logout' %}" class="text-white">Logout</a>
-        {% else %}
-        <h2>None</h2>
-        {% endif %}
-
         <!-- Dropdown menu -->
         <div
           class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
@@ -109,132 +94,413 @@
       </div>
     </div>
   </nav>
-  <br>
-  <h1>Home Template</h1>
-  <br>
-  <form action="{% url 'community' %}" method="GET">
+  <br />
 
-    <input type="text" name="q" placeholder="Search Rooms ...">
+  <div class="flex h-screen">
 
-  </form>
-  <br>
-  <div class="home-container">
-
-    <div class="topics">
-      <div class="topics__header mb-8">
-        <h2 class="text-uppercase font-semibold text-dark-light">Browse Topics</h2>
-      </div>
-      <ul class="topics__list">
+    <div class="w-1/5 bg-gray-900">
+      <h1 class="text-1xl text-gray-700 ml-9 mt-5 font-semibold"> BROWSE TOPICS</h1>
+      <ul class="">
         <li>
-          <a href="{% url 'home' %}" class="active flex justify-between items-center mb-12 font-semibold text-light-gray transition-colors duration-300 hover:text-main">
-            All <span class="py-2 px-4 bg-dark text-white rounded-full text-lg font-bold tracking-wide"> {{topics.count}} </span>
+          <a href=""
+            class="flex ml-9 mt-4 mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
+            <span class="mt-2 ">All</span>
+            <span class="bg-dark py-2 px-4 text-white font-semibold">343</span>
           </a>
         </li>
-        {% for topic in topics %}
         <li>
-          <a href="{% url 'home' %}?q={{topic.name}}" class="flex justify-between items-center mb-12 font-semibold text-light-gray transition-colors duration-300 hover:text-main">
-            {{topic.name}}<span class="py-2 px-4 bg-dark text-white rounded-full text-lg font-bold tracking-wide">{{topic.room_set.all.count}}</span>
+          <a href=""
+            class="flex ml-9 mt-4 mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
+            <span class="mt-2">Python</span>
+            <span class="bg-dark py-2 px-4 text-white font-semibold">343</span>
           </a>
         </li>
-        {% endfor %}
+        <li>
+          <a href=""
+            class="flex ml-9 mt-4 mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
+            <span class="mt-2">Java</span>
+            <span class="bg-dark py-2 px-4 text-white font-semibold">343</span>
+          </a>
+        </li>
+        <li>
+          <a href=""
+            class="flex ml-9 mt-4 mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
+            <span class="mt-2">Javascript</span>
+            <span class="bg-dark py-2 px-4 text-white font-semibold">343</span>
+          </a>
+        </li>
+        <li>
+          <a href=""
+            class="flex ml-9 mt-4 mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
+            <span class="mt-2">Ruby</span>
+            <span class="bg-dark py-2 px-4 text-white font-semibold">343</span>
+          </a>
+        </li>
       </ul>
-      <a href="" class="btn btn--link">
-        More
-        <svg class="inline-block w-8 h-8" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-          <title>chevron-down</title>
-          <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
-        </svg>
-      </a>
     </div>
-    
 
-    <!-- <div>
-      <h5>{{room_count}} rooms available </h5>
-      <a href="{% url 'create-room' %}" style="color:blue ;">Create Room</a>
 
+    <div class="w-3/5 ml-2 bg-gray-900">
+
+      <div class="flex ">
+
+        <div>
+          <h1 class="text-1xl text-gray-300 ml-9 mt-5 font-semibold"> ROOMS</h1>
+          <h1 class="text-1xl text-gray-400 ml-9 mt-1"> 000 Rooms Available</h1>
+        </div>
+
+        <div class="flex-shrink-0 ml-auto">
+          <button type="button"
+            class="text-white mt-5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Create
+            Room</button>
+        </div>
+
+
+      </div>
 
       <div>
+        <h1 class="text-1xl text-gray-700 ml-9 mt-5 font-bold text-cyan-400 text-lg">All Rooms</h1>
 
-       {% include 'Community/feed_component.html' %}
+        <div class="rounded-lg bg-gray-500 ml-9 mt-5 p-4 w-4/5 h-auto flex flex-col">
+          <!-- User Profile Image -->
+          <div class="flex w-full">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-11 h-11 rounded-full border-cyan-400 border-2">
 
-      </div>
-
-    </div> -->
-
-    <div class="roomList">
-      <div class="mobile-menu">
-        <form action="{% url 'home' %}" method="GET" class="header__search">
-          <label class="flex items-center">
-            <svg class="w-8 h-8 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-              <title>search</title>
-              <path d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z"></path>
-            </svg>
-            <input name="q" placeholder="Search for posts" class="border-b border-gray-300 focus:outline-none focus:border-main" />
-          </label>
-        </form>
-        <div class="mobile-menuItems flex">
-          <a href="" class="btn btn--main btn--pill mr-2">Browse Topics</a>
-          <a href="" class="btn btn--main btn--pill">Recent Activities</a>
-        </div>
-      </div>
-    
-      <div class="roomList__header flex justify-between items-center mb-6">
-        <div>
-          <h2 class="text-uppercase font-semibold text-light">Study Rooms</h2>
-          <p>{{room_count}} Rooms available</p>
-        </div>
-    
-        <a href="{% url 'create-room' %}" class="btn btn--main flex items-center">
-          <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-            <title>add</title>
-            <path d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"></path>
-          </svg>
-          Create Room
-        </a>
-      </div>
-    
-      {% for room in rooms %}
-      <div class="roomListRoom bg-dark rounded-lg p-6 mb-6">
-        <div class="roomListRoom__header flex justify-between items-center">
-          <a href="" class="roomListRoom__author flex items-center">
-            <div class="avatar avatar--small mr-2">
-              <img src="{{room.host.avatar.url}}" class="w-8 h-8 rounded-full" />
+            <!-- Username and Date -->
+            <div class="ml-2 flex flex-grow justify-between">
+              <div class="font-semibold text-slate- mt-2 text-lg text-cyan-400">Host @Robert Sanchez</div>
+              <div class="text-gray-400 font-semibold mt-2">5 months, 1 week ago</div>
             </div>
-            <span>@{{room.host.username}}</span>
-          </a>
-          <div class="roomListRoom__actions flex items-center">
-            <span class="text-base font-semibold">{{room.created|timesince}} ago</span>
           </div>
+          <!-- <a href=""> </a> -->
+          <h1 class="text-2xl p-1 my-3 font-semibold text-gray-300"> Python Programming</h1>
+          <p class="ml-1 text-gray-300 font-normal">Lorem Ipsum is simply dummy text of the printing and
+            typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+            1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+            book.</p>
+          <br>
+
+          <div class="flex justify-start ml-1">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2 ">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2">
+          </div>
+
+          <br>
+
+          <hr>
+          <br>
+          <div class="flex justify-between items-center">
+            <ul class="anser-list flex space-x-10">
+              <li>
+                <!-- SVG icon -->
+                <svg class="inline-block h-4 w-4 mb-1 mr-1 text-cyan-400" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32" fill="currentColor">
+                  <title>User Group</title>
+                  <!-- Include the path data here -->
+                  <path
+                    d="M30.539 20.766c-2.69-1.547-5.75-2.427-8.92-2.662 0.649 0.291 1.303 0.575 1.918 0.928 0.715 0.412 1.288 1.005 1.71 1.694 1.507 0.419 2.956 1.003 4.298 1.774 0.281 0.162 0.456 0.487 0.456 0.85v4.65h-4v2h5c0.553 0 1-0.447 1-1v-5.65c0-1.077-0.56-2.067-1.461-2.584z">
+                  </path>
+                  <path
+                    d="M22.539 20.766c-6.295-3.619-14.783-3.619-21.078 0-0.901 0.519-1.461 1.508-1.461 2.584v5.65c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-5.651c0-1.075-0.56-2.064-1.461-2.583zM22 28h-20v-4.65c0-0.362 0.175-0.688 0.457-0.85 5.691-3.271 13.394-3.271 19.086 0 0.282 0.162 0.457 0.487 0.457 0.849v4.651z">
+                  </path>
+                  <path
+                    d="M19.502 4.047c0.166-0.017 0.33-0.047 0.498-0.047 2.757 0 5 2.243 5 5s-2.243 5-5 5c-0.168 0-0.332-0.030-0.498-0.047-0.424 0.641-0.944 1.204-1.513 1.716 0.651 0.201 1.323 0.331 2.011 0.331 3.859 0 7-3.141 7-7s-3.141-7-7-7c-0.688 0-1.36 0.131-2.011 0.331 0.57 0.512 1.089 1.075 1.513 1.716z">
+                  </path>
+                  <path
+                    d="M12 16c3.859 0 7-3.141 7-7s-3.141-7-7-7c-3.859 0-7 3.141-7 7s3.141 7 7 7zM12 4c2.757 0 5 2.243 5 5s-2.243 5-5 5-5-2.243-5-5c0-2.757 2.243-5 5-5z">
+                  </path>
+                </svg>
+                <!-- Text -->
+                <a href="polls.html" class="text-gray-400 font-semibold">28 joined</a>
+              </li>
+            </ul>
+
+            <a href="most-answered.html"
+              class="bg-gray-400 opacity-40 text-white font-normal py-2 px-4 rounded-full inline-block transition duration-300">
+              Python
+            </a>
+          </div>
+
         </div>
-        <div class="roomListRoom__content">
-          <a href="{% url 'room' room.id %}" class="text-lg font-semibold mb-4 text-light hover:text-main">{{room.name}}</a>
+
+
+        <div class="rounded-lg bg-gray-500 ml-9 mt-5 p-4 w-4/5 h-auto flex flex-col">
+          <!-- User Profile Image -->
+          <div class="flex w-full">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-11 h-11 rounded-full border-cyan-400 border-2">
+
+            <!-- Username and Date -->
+            <div class="ml-2 flex flex-grow justify-between">
+              <div class="font-semibold text-slate- mt-2 text-lg text-cyan-400">Host @Robert Sanchez</div>
+              <div class="text-gray-400 font-semibold mt-2">5 months, 1 week ago</div>
+            </div>
+          </div>
+          <!-- <a href=""> </a> -->
+          <h1 class="text-2xl p-1 my-3 font-semibold text-gray-300"> Python Programming</h1>
+          <p class="ml-1 text-gray-300 font-normal">Lorem Ipsum is simply dummy text of the printing and
+            typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+            1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+            book.</p>
+          <br>
+
+          <div class="flex justify-start ml-1">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2 ">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2">
+          </div>
+
+          <br>
+
+          <hr>
+          <br>
+          <div class="flex justify-between items-center">
+            <ul class="anser-list flex space-x-10">
+              <li>
+                <!-- SVG icon -->
+                <svg class="inline-block h-4 w-4 mb-1 mr-1 text-cyan-400" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32" fill="currentColor">
+                  <title>User Group</title>
+                  <!-- Include the path data here -->
+                  <path
+                    d="M30.539 20.766c-2.69-1.547-5.75-2.427-8.92-2.662 0.649 0.291 1.303 0.575 1.918 0.928 0.715 0.412 1.288 1.005 1.71 1.694 1.507 0.419 2.956 1.003 4.298 1.774 0.281 0.162 0.456 0.487 0.456 0.85v4.65h-4v2h5c0.553 0 1-0.447 1-1v-5.65c0-1.077-0.56-2.067-1.461-2.584z">
+                  </path>
+                  <path
+                    d="M22.539 20.766c-6.295-3.619-14.783-3.619-21.078 0-0.901 0.519-1.461 1.508-1.461 2.584v5.65c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-5.651c0-1.075-0.56-2.064-1.461-2.583zM22 28h-20v-4.65c0-0.362 0.175-0.688 0.457-0.85 5.691-3.271 13.394-3.271 19.086 0 0.282 0.162 0.457 0.487 0.457 0.849v4.651z">
+                  </path>
+                  <path
+                    d="M19.502 4.047c0.166-0.017 0.33-0.047 0.498-0.047 2.757 0 5 2.243 5 5s-2.243 5-5 5c-0.168 0-0.332-0.030-0.498-0.047-0.424 0.641-0.944 1.204-1.513 1.716 0.651 0.201 1.323 0.331 2.011 0.331 3.859 0 7-3.141 7-7s-3.141-7-7-7c-0.688 0-1.36 0.131-2.011 0.331 0.57 0.512 1.089 1.075 1.513 1.716z">
+                  </path>
+                  <path
+                    d="M12 16c3.859 0 7-3.141 7-7s-3.141-7-7-7c-3.859 0-7 3.141-7 7s3.141 7 7 7zM12 4c2.757 0 5 2.243 5 5s-2.243 5-5 5-5-2.243-5-5c0-2.757 2.243-5 5-5z">
+                  </path>
+                </svg>
+                <!-- Text -->
+                <a href="polls.html" class="text-gray-400 font-semibold">28 joined</a>
+              </li>
+            </ul>
+
+            <a href="most-answered.html"
+              class="bg-gray-400 opacity-40 text-white font-normal py-2 px-4 rounded-full inline-block transition duration-300">
+              Python
+            </a>
+          </div>
+
         </div>
-        <div class="roomListRoom__meta border-t border-dark-medium pt-4 flex justify-between items-center">
-          <a href="{% url 'room' room.id %}" class="roomListRoom__joined flex items-center gap-2 text-base font-semibold text-light-gray">
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-              <title>user-group</title>
-              <path d="M30.539 20.766c-2.69-1.547-5.75-2.427-8.92-2.662 0.649 0.291 1.303 0.575 1.918 0.928 0.715 0.412 1.288 1.005 1.71 1.694 1.507 0.419 2.956 1.003 4.298 1.774 0.281 0.162 0.456 0.487 0.456 0.85v4.65h-4v2h5c0.553 0 1-0.447 1-1v-5.65c0-1.077-0.56-2.067-1.461-2.584z"></path>
-              <path d="M22.539 20.766c-6.295-3.619-14.783-3.619-21.078 0-0.901 0.519-1.461 1.508-1.461 2.584v5.65c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-5.651c0-1.075-0.56-2.064-1.461-2.583zM22 28h-20v-4.65c0-0.362 0.175-0.688 0.457-0.85 5.691-3.271 13.394-3.271 19.086 0 0.282 0.162 0.457 0.487 0.457 0.849v4.651z"></path>
-              <path d="M19.502 4.047c0.166-0.017 0.33-0.047 0.498-0.047 2.757 0 5 2.243 5 5s-2.243 5-5 5c-0.168 0-0.332-0.030-0.498-0.047-0.424 0.641-0.944 1.204-1.513 1.716 0.651 0.201 1.323 0.331 2.011 0.331 3.859 0 7-3.141 7-7s-3.141-7-7-7c-0.688 0-1.36 0.131-2.011 0.331 0.57 0.512 1.089 1.075 1.513 1.716z"></path>
-              <path d="M12 16c3.859 0 7-3.141 7-7s-3.141-7-7-7c-3.859 0-7 3.141-7 7s3.141 7 7 7zM12 4c2.757 0 5 2.243 5 5s-2.243 5-5 5-5-2.243-5-5c0-2.757 2.243-5 5-5z"></path>
-            </svg>
-            {{room.participants.all.count}} Joined
-          </a>
-          <p class="roomListRoom__topic py-1.5 px-6 bg-dark-medium rounded-full font-semibold text-sm">{{room.topic.name}}</p>
+
+        <div class="rounded-lg bg-gray-500 ml-9 mt-5 p-4 w-4/5 h-auto flex flex-col">
+          <!-- User Profile Image -->
+          <div class="flex w-full">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-11 h-11 rounded-full border-cyan-400 border-2">
+
+            <!-- Username and Date -->
+            <div class="ml-2 flex flex-grow justify-between">
+              <div class="font-semibold text-slate- mt-2 text-lg text-cyan-400">Host @Robert Sanchez</div>
+              <div class="text-gray-400 font-semibold mt-2">5 months, 1 week ago</div>
+            </div>
+          </div>
+          <!-- <a href=""> </a> -->
+          <h1 class="text-2xl p-1 my-3 font-semibold text-gray-300"> Python Programming</h1>
+          <p class="ml-1 text-gray-300 font-normal">Lorem Ipsum is simply dummy text of the printing and
+            typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+            1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+            book.</p>
+          <br>
+
+          <div class="flex justify-start ml-1">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2 ">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2">
+          </div>
+
+          <br>
+
+          <hr>
+          <br>
+          <div class="flex justify-between items-center">
+            <ul class="anser-list flex space-x-10">
+              <li>
+                <!-- SVG icon -->
+                <svg class="inline-block h-4 w-4 mb-1 mr-1 text-cyan-400" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32" fill="currentColor">
+                  <title>User Group</title>
+                  <!-- Include the path data here -->
+                  <path
+                    d="M30.539 20.766c-2.69-1.547-5.75-2.427-8.92-2.662 0.649 0.291 1.303 0.575 1.918 0.928 0.715 0.412 1.288 1.005 1.71 1.694 1.507 0.419 2.956 1.003 4.298 1.774 0.281 0.162 0.456 0.487 0.456 0.85v4.65h-4v2h5c0.553 0 1-0.447 1-1v-5.65c0-1.077-0.56-2.067-1.461-2.584z">
+                  </path>
+                  <path
+                    d="M22.539 20.766c-6.295-3.619-14.783-3.619-21.078 0-0.901 0.519-1.461 1.508-1.461 2.584v5.65c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-5.651c0-1.075-0.56-2.064-1.461-2.583zM22 28h-20v-4.65c0-0.362 0.175-0.688 0.457-0.85 5.691-3.271 13.394-3.271 19.086 0 0.282 0.162 0.457 0.487 0.457 0.849v4.651z">
+                  </path>
+                  <path
+                    d="M19.502 4.047c0.166-0.017 0.33-0.047 0.498-0.047 2.757 0 5 2.243 5 5s-2.243 5-5 5c-0.168 0-0.332-0.030-0.498-0.047-0.424 0.641-0.944 1.204-1.513 1.716 0.651 0.201 1.323 0.331 2.011 0.331 3.859 0 7-3.141 7-7s-3.141-7-7-7c-0.688 0-1.36 0.131-2.011 0.331 0.57 0.512 1.089 1.075 1.513 1.716z">
+                  </path>
+                  <path
+                    d="M12 16c3.859 0 7-3.141 7-7s-3.141-7-7-7c-3.859 0-7 3.141-7 7s3.141 7 7 7zM12 4c2.757 0 5 2.243 5 5s-2.243 5-5 5-5-2.243-5-5c0-2.757 2.243-5 5-5z">
+                  </path>
+                </svg>
+                <!-- Text -->
+                <a href="polls.html" class="text-gray-400 font-semibold">28 joined</a>
+              </li>
+            </ul>
+
+            <a href="most-answered.html"
+              class="bg-gray-400 opacity-40 text-white font-normal py-2 px-4 rounded-full inline-block transition duration-300">
+              Python
+            </a>
+          </div>
+
         </div>
+
+        <div class="rounded-lg bg-gray-500 ml-9 mt-5 p-4 w-4/5 h-auto flex flex-col">
+          <!-- User Profile Image -->
+          <div class="flex w-full">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-11 h-11 rounded-full border-cyan-400 border-2">
+
+            <!-- Username and Date -->
+            <div class="ml-2 flex flex-grow justify-between">
+              <div class="font-semibold text-slate- mt-2 text-lg text-cyan-400">Host @Robert Sanchez</div>
+              <div class="text-gray-400 font-semibold mt-2">5 months, 1 week ago</div>
+            </div>
+          </div>
+          <!-- <a href=""> </a> -->
+          <h1 class="text-2xl p-1 my-3 font-semibold text-gray-300"> Python Programming</h1>
+          <p class="ml-1 text-gray-300 font-normal">Lorem Ipsum is simply dummy text of the printing and
+            typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+            1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+            book.</p>
+          <br>
+
+          <div class="flex justify-start ml-1">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2 ">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2 mr-2">
+            <img src="{% static 'img/user-1.jpg'%}" alt="User Profile"
+              class="w-10 h-10 rounded-full border-cyan-400 border-2">
+          </div>
+
+          <br>
+
+          <hr>
+          <br>
+          <div class="flex justify-between items-center">
+            <ul class="anser-list flex space-x-10">
+              <li>
+                <!-- SVG icon -->
+                <svg class="inline-block h-4 w-4 mb-1 mr-1 text-cyan-400" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32" fill="currentColor">
+                  <title>User Group</title>
+                  <!-- Include the path data here -->
+                  <path
+                    d="M30.539 20.766c-2.69-1.547-5.75-2.427-8.92-2.662 0.649 0.291 1.303 0.575 1.918 0.928 0.715 0.412 1.288 1.005 1.71 1.694 1.507 0.419 2.956 1.003 4.298 1.774 0.281 0.162 0.456 0.487 0.456 0.85v4.65h-4v2h5c0.553 0 1-0.447 1-1v-5.65c0-1.077-0.56-2.067-1.461-2.584z">
+                  </path>
+                  <path
+                    d="M22.539 20.766c-6.295-3.619-14.783-3.619-21.078 0-0.901 0.519-1.461 1.508-1.461 2.584v5.65c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-5.651c0-1.075-0.56-2.064-1.461-2.583zM22 28h-20v-4.65c0-0.362 0.175-0.688 0.457-0.85 5.691-3.271 13.394-3.271 19.086 0 0.282 0.162 0.457 0.487 0.457 0.849v4.651z">
+                  </path>
+                  <path
+                    d="M19.502 4.047c0.166-0.017 0.33-0.047 0.498-0.047 2.757 0 5 2.243 5 5s-2.243 5-5 5c-0.168 0-0.332-0.030-0.498-0.047-0.424 0.641-0.944 1.204-1.513 1.716 0.651 0.201 1.323 0.331 2.011 0.331 3.859 0 7-3.141 7-7s-3.141-7-7-7c-0.688 0-1.36 0.131-2.011 0.331 0.57 0.512 1.089 1.075 1.513 1.716z">
+                  </path>
+                  <path
+                    d="M12 16c3.859 0 7-3.141 7-7s-3.141-7-7-7c-3.859 0-7 3.141-7 7s3.141 7 7 7zM12 4c2.757 0 5 2.243 5 5s-2.243 5-5 5-5-2.243-5-5c0-2.757 2.243-5 5-5z">
+                  </path>
+                </svg>
+                <!-- Text -->
+                <a href="polls.html" class="text-gray-400 font-semibold">28 joined</a>
+              </li>
+            </ul>
+
+            <a href="most-answered.html"
+              class="bg-gray-400 opacity-40 text-white font-normal py-2 px-4 rounded-full inline-block transition duration-300">
+              Python
+            </a>
+          </div>
+
+        </div>
+        <br>
+        <br>
+        <div class="flex justify-center mt-5 mr-14">
+          <nav aria-label="Page navigation example">
+            <ul class="flex items-center -space-x-px h-10 text-base">
+              <li>
+                <a href="#"
+                  class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  <span class="sr-only">Previous</span>
+                  <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M5 1 1 5l4 4" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="#"
+                  class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+              </li>
+              <li>
+                <a href="#"
+                  class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+              </li>
+              <li>
+                <a href="#" aria-current="page"
+                  class="z-10 flex items-center justify-center px-4 h-10 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+              </li>
+              <li>
+                <a href="#"
+                  class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
+              </li>
+              <li>
+                <a href="#"
+                  class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
+              </li>
+              <li>
+                <a href="#"
+                  class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  <span class="sr-only">Next</span>
+                  <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="m1 9 4-4-4-4" />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <br>
+
+
       </div>
-      {% endfor %}
-    </div>
-    
 
-    <div>
-      {% include 'Community/activity_component.html' %}
+
+
     </div>
 
+
+    <div class="w-1/5 bg-gray-900">3</div>
 
   </div>
-
-
 
 </body>
 
