@@ -33,6 +33,7 @@ def community(request):
 @login_required(login_url='')
 def room(request,pk):
     room = Room.objects.get(id=pk)
+    print(room)
     room_messages = room.message_set.all().order_by('-created')
     participants = room.participant.all()
     
@@ -48,7 +49,7 @@ def room(request,pk):
         return redirect('room',pk=room.id)
     context = {'room':room,'room_messages':room_messages,'participants':participants}
     
-    return render(request,'Community/room.html',context)
+    return render(request,'Community/ChatRoom.html',context)
 
 
 @login_required(login_url='login')

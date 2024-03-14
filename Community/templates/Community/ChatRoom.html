@@ -1,12 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/main.css'%} " />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" />
-    <link rel="stylesheet" href="css/main.css" />
+    <style>
+        .custom-input-style {
+            width: 400px;
+            /* Adjust the width as needed */
+        }
+    </style>
 </head>
 
 <body class="overflow-x-hidden bg-gray-900">
@@ -14,7 +21,7 @@
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="img/herald-white-logo.png" class="h-10" alt="Flowbite Logo" />
+                <img src="{% static 'img/herald-white-logo.png' %}" class="h-8" alt="Flowbite Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
             </a>
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -23,14 +30,14 @@
                     id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                     data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
-                    <img class="w-8 h-8 rounded-full" src="img/user-1.jpg" alt="user photo">
+                    <img class="w-8 h-8 rounded-full" src="{% static 'img/user-1.jpg'%}" alt="user photo" />
                 </button>
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                     id="user-dropdown">
                     <div class="px-4 py-3">
                         <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                        <span class="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
@@ -67,31 +74,33 @@
                 <ul
                     class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                     <li>
-                        <a href="#"
+                        <a href="index.html"
                             class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
                             aria-current="page">Home</a>
                     </li>
+
                     <li>
                         <a href="#"
                             class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
                     </li>
+
                     <li>
-                        <a href="#"
-                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</a>
+                        <a href="{% url 'Questionlist' %}"
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Forum</a>
                     </li>
                     <li>
                         <a href="#"
-                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Community</a>
                     </li>
                     <li>
                         <a href="#"
-                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Event</a>
                     </li>
+
                 </ul>
             </div>
         </div>
     </nav>
-
 
     <div class="flex">
 
@@ -170,7 +179,7 @@
                             </div>
                         </li>
 
-                        
+
                     </ul>
                 </div>
             </div>
@@ -228,19 +237,19 @@
                     <div class="ml-2 flex flex-grow justify-between">
                         <div class="font-semibold text-slate- mt-2 text-cyan-400">
                             <div class="text-3xl">
-                                Lets Learn Python Programming
+                                {{room.name}}
                             </div>
                             <!-- Additional details -->
                             <div class="text-gray-400 font-semibold mt-2">
-                                5 months, 1 week ago
+                                {{room.created}}
                             </div>
                             <div class="text-gray-400 mt-1 mb-2">
                                 Hosted By
                             </div>
                             <div class="flex items-center">
-                                <img src="img/user-1.jpg" alt="User Profile"
+                                <img src="{{room.host.profile.image.url}}" alt="User Profile"
                                     class="w-10 h-10 rounded-full border-cyan-400 border-2">
-                                <span class="ml-2">@Username</span>
+                                <span class="ml-2">@{{room.host.username}}</span>
                             </div>
 
 
@@ -251,87 +260,68 @@
                 </div>
 
                 <div class="rounded-lg bg-gray-700 ml-2 mt-5 p-4 h-auto flex flex-col overflow-y-auto">
+
+                    {% for message in room_messages %}
                     <div class="thread border-l-2 border-dark p-2 mt-3 rounded bg-bg h-full">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-6 text-base">
                                 <div class="flex items-center">
-                                    <img src="img/user-1.jpg" alt="User Profile"
+                                    <img src="{{message.user.profile.image.url}}" alt="User Profile"
                                         class="w-8 h-8 rounded-full border-cyan-400 border-2">
-                                    <span class="ml-2 text-cyan-400 font-semibold">@Username</span>
+                                    <span class="ml-2 text-cyan-400 font-semibold">@{{message.user.username}}</span>
                                 </div>
-                                <span class="text-gray-400 font-medium">Sent at 12:24 AM</span>
+                                <div class="text-gray-400 font-medium">Sent at {{message.created}}</div>
+                            </div>
+                            <div class="flex items-center"> <!-- Moved this div here -->
+                                {% if message.user == request.user %}
+                                <div class="items-end flex justify-end gap-2 mr-2"> <!-- Changed this div to a div for better alignment -->
+                                    <button>
+                                        <svg enable-background="new 0 0 24 24" height="22" viewBox="0 0 24 24" width="22"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <title>Edit</title>
+                                            <path fill="white"
+                                                d="m23.5 22h-15c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h15c.276 0 .5.224.5.5s-.224.5-.5.5z" />
+                                            <g>
+                                                <g>
+                                                    <path fill="white" stroke-width="2"
+                                                        d="m2.5 22c-.131 0-.259-.052-.354-.146-.123-.123-.173-.3-.133-.468l1.09-4.625c.021-.09.067-.173.133-.239l14.143-14.143c.565-.566 1.554-.566 2.121 0l2.121 2.121c.283.283.439.66.439 1.061s-.156.778-.439 1.061l-14.142 14.141c-.065.066-.148.112-.239.133l-4.625 1.09c-.038.01-.077.014-.115.014zm1.544-4.873-.872 3.7 3.7-.872 14.042-14.041c.095-.095.146-.22.146-.354 0-.133-.052-.259-.146-.354l-2.121-2.121c-.19-.189-.518-.189-.707 0zm3.081 3.283h.01z" />
+                                                </g>
+                                                <g>
+                                                    <path fill="white" stroke-width="2"
+                                                        d="m17.889 10.146c-.128 0-.256-.049-.354-.146l-3.535-3.536c-.195-.195-.195-.512 0-.707s.512-.195.707 0l3.536 3.536c.195.195.195.512 0 .707-.098.098-.226.146-.354.146z" />
+                                                </g>
+                                            </g>
+                                        </svg>
+        
+                                    </button>
+                                    <button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="text-gray-400 font-semibold text-base mt-2 ml-1">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book.
+                            {{message.body}}
                         </div>
                     </div>
-
-                    <div class="thread border-l-2 border-dark p-2 mt-8 rounded bg-bg overflow-y-auto h-full">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-6 text-base">
-                                <div class="flex items-center">
-                                    <img src="img/user-1.jpg" alt="User Profile"
-                                        class="w-8 h-8 rounded-full border-cyan-400 border-2">
-                                    <span class="ml-2 text-cyan-400 font-semibold">@Username</span>
-                                </div>
-                                <span class="text-gray-400 font-medium">Sent at 12:24 AM</span>
-                            </div>
-                        </div>
-                        <div class="text-gray-400 font-semibold text-base mt-2 ml-1">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book.
-                        </div>
+                    {% endfor %}
+                
+                    <div class="room__message flex items-center mt-5">
+                        <form id="message-form" action="" method="POST">
+                            {% csrf_token %}
+                            <input id="message-input"
+                                class="custom-input-style w-full bg-gray-800 text-gray-300 px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:border-cyan-400"
+                                name="body" placeholder="Write your message here..." />
+                        </form>
                     </div>
-
-                    <div class="thread border-l-2 border-dark p-2 mt-8 rounded bg-bg overflow-y-auto h-full">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-6 text-base">
-                                <div class="flex items-center">
-                                    <img src="img/user-1.jpg" alt="User Profile"
-                                        class="w-8 h-8 rounded-full border-cyan-400 border-2">
-                                    <span class="ml-2 text-cyan-400 font-semibold">@Username</span>
-                                </div>
-                                <span class="text-gray-400 font-medium">Sent at 12:24 AM</span>
-                            </div>
-                        </div>
-                        <div class="text-gray-400 font-semibold text-base mt-2 ml-1">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book.
-                        </div>
-                    </div>
-
-                    <div class="thread border-l-2 border-dark p-2 mt-8 rounded bg-bg overflow-y-auto h-full">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-6 text-base">
-                                <div class="flex items-center">
-                                    <img src="img/user-1.jpg" alt="User Profile"
-                                        class="w-8 h-8 rounded-full border-cyan-400 border-2">
-                                    <span class="ml-2 text-cyan-400 font-semibold">@Username</span>
-                                </div>
-                                <span class="text-gray-400 font-medium">Sent at 12:24 AM</span>
-                            </div>
-                        </div>
-                        <div class="text-gray-400 font-semibold text-base mt-2 ml-1">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book.
-                        </div>
-                    </div>
-
-
-                    <div class="flex items-center mt-5">
-                        <textarea
-                            class="w-full bg-gray-800 text-gray-300 px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:border-cyan-400"
-                            placeholder="Type your message..."></textarea>
-
-                    </div>
-
+                
                 </div>
+                
 
 
             </div>
@@ -347,49 +337,20 @@
                 </div>
                 <div class="p-4">
                     <ul>
+                        {% for user in participants %}
                         <!-- Example participant -->
                         <li class="flex items-center">
-                            <img src="img/user-1.jpg" alt="User 1" class="w-11 h-11 rounded-full mr-2">
+                            <img src="{{user.profile.image.url}}" alt="User 1" class="w-11 h-11 rounded-full mr-2">
                             <div>
-                                <h2 class="text-gray-500 text-lg font-normal">John Doe</h2>
-                                <p class="text-cyan-500 font-semibold">@johndoe</p>
+                                <h2 class="text-gray-500 text-lg font-normal">{{user.first_name}} {{user.last_name}}
+                                </h2>
+                                <p class="text-cyan-500 font-semibold">@{{user.username}}</p>
                             </div>
                         </li>
                         <br>
-                        <li class="flex items-center">
-                            <img src="img/user-1.jpg" alt="User 1" class="w-11 h-11 rounded-full mr-2">
-                            <div>
-                                <h2 class="text-gray-500 text-lg font-normal">John Doe</h2>
-                                <p class="text-cyan-500 font-semibold">@johndoe</p>
-                            </div>
-                        </li>
-                        <br>
-                        <li class="flex items-center">
-                            <img src="img/user-1.jpg" alt="User 1" class="w-11 h-11 rounded-full mr-2">
-                            <div>
-                                <h2 class="text-gray-500 text-lg font-normal">John Doe</h2>
-                                <p class="text-cyan-500 font-semibold">@johndoe</p>
-                            </div>
-                        </li>
 
-                        <br>
-                        <li class="flex items-center">
-                            <img src="img/user-1.jpg" alt="User 1" class="w-11 h-11 rounded-full mr-2">
-                            <div>
-                                <h2 class="text-gray-500 text-lg font-normal">John Doe</h2>
-                                <p class="text-cyan-500 font-semibold">@johndoe</p>
-                            </div>
-                        </li>
+                        {% endfor %}
 
-                        <br>
-                        <li class="flex items-center">
-                            <img src="img/user-1.jpg" alt="User 1" class="w-11 h-11 rounded-full mr-2">
-                            <div>
-                                <h2 class="text-gray-500 text-lg font-normal">John Doe</h2>
-                                <p class="text-cyan-500 font-semibold">@johndoe</p>
-                            </div>
-                        </li>
-                        <!-- Add more participants as needed -->
                     </ul>
                 </div>
             </div>
@@ -502,7 +463,6 @@
             </div>
         </div>
     </section>
-
 
 </body>
 
