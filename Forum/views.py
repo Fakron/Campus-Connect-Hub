@@ -1,11 +1,12 @@
-from typing import Any
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, DetailView , CreateView, UpdateView, DeleteView
-from .models import Question, Comment
+from .models import Question, Comment, Category
 from django.contrib.auth.mixins import UserPassesTestMixin,LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
-
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from .forms import QuestionForm
 
 
 def like_views(request, pk):
@@ -24,25 +25,44 @@ def get_like_count(request, pk):
     total_likes = question.total_likes()
     return JsonResponse({'total_likes': total_likes})
 
+def get_like_count_comment(request, pk):
+    comment = get_object_or_404(Comment, id=pk)
+    total_likes = comment.upvote.count()
+    return JsonResponse({'total_likes': total_likes})
 
-class QuestionListView(LoginRequiredMixin,ListView):
+class QuestionListView(LoginRequiredMixin, ListView):
     model = Question
     template_name = 'Forum/forum.html'
     context_object_name = 'questions'
     ordering = ['-date_created']
-    
-    
-    def get_context_data(self,*args, **kwargs):
-        context = super().get_context_data(**kwargs)
+    paginate_by = 8  # Number of questions per page
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
         search_data = self.request.GET.get('search-area') or ""
         if search_data:
-            context['questions'] = context['questions'].filter(title__icontains=search_data)
-            context['search_data'] = search_data
+            queryset = queryset.filter(title__icontains=search_data)
+        return queryset
+
+    def get_questions_by_category(self, category):
+        if category:
+            return Question.objects.filter(category=category)
+        return Question.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        comments = Comment.objects.order_by('-date_created')[:5]     
+        categories = Category.objects.all()
+        selected_category = self.request.GET.get('category')
+        questions = self.get_questions_by_category(selected_category)
+        context['comments'] = comments
+        context['categories'] = categories 
+        context['selected_category'] = selected_category
+        context['questions'] = questions
         return context
-    
 
 
-class QuestionDetailView(LoginRequiredMixin,DetailView):
+class QuestionDetailView(LoginRequiredMixin, DetailView):
     model = Question
     template_name = 'Forum/questiondetail.html'
     context_object_name = 'question'
@@ -55,28 +75,57 @@ class QuestionDetailView(LoginRequiredMixin,DetailView):
     
     def get_context_data(self, *args, **kwargs):
         context = super(QuestionDetailView, self).get_context_data(*args, **kwargs)
-        something = get_object_or_404(Question, id=self.kwargs['pk'])
-        total_likes = something.total_likes()
+        question = self.get_object()
+        total_likes = question.total_likes()
         liked = False
 
-        if something.upvote.filter(id=self.request.user.id).exists():
+        if question.upvote.filter(id=self.request.user.id).exists():
             liked = True
+        
+        # Count the total number of comments (answers) for the question
+        total_answers = question.comment.count()
+
+        # Pass the comments along with their upvote count to the template
+        comments = question.comment.all()
+        comments_with_upvotes = []
+        for comment in comments:
+            upvote_count = comment.upvote.count()
+            comments_with_upvotes.append({'comment': comment, 'upvote_count': upvote_count, 'comment_id': comment.id})
 
         context['total_likes'] = total_likes
         context['liked'] = liked
-
+        context['total_answers'] = total_answers
+        context['comments_with_upvotes'] = comments_with_upvotes
+        
         return context
 
+
         
+# @login_required
+def create_question(request):
+    categories = Category.objects.all()
+    print(request)
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            print("---------------")
+            question = form.save(commit=False)
+            question.user = request.user
+            question.save()
+            return redirect('home')
+        else:
+            print(form.errors)
+    else:
+        print("---HHHHHHHHHHHHHHH------------")
+        categories = Category.objects.all()
+        form = QuestionForm()
+        
+    context = {
+        'form': form,
+        'categories': categories
+    }
+    return render(request, 'Forum/createquestion.html', context=context)
 
-class QuestionCreateView(LoginRequiredMixin,CreateView):
-    model = Question
-    fields = ['title','content']
-    template_name = 'Forum/createquestion.html'
-
-    def form_valid(self,form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
     
 
 class QuestionUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):

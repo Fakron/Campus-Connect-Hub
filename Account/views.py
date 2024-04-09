@@ -71,7 +71,9 @@ def user_logout(request):
 def user_profile(request):
 
     user = request.user
-    image = user.profile.image.url
+    # image = user.profile.image.url
+    # if user.profile.image.url 
+    
     return render(request,'Account/profile.html')
 
 

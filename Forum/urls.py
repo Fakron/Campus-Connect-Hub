@@ -1,10 +1,14 @@
 from django.urls import path
-from .views import QuestionListView,QuestionDetailView, QuestionCreateView, QuestionUpdateView, QuestionDeleteView, like_views, get_like_count
+from .views import QuestionListView,QuestionDetailView, create_question, QuestionUpdateView, QuestionDeleteView, like_views, get_like_count,get_like_count_comment
 
 urlpatterns = [
     path('', QuestionListView.as_view(), name="Questionlist"),
     path('questions/<int:pk>/',QuestionDetailView.as_view(),name="Questiondetail"),
-    path('question/new',QuestionCreateView.as_view(),name="Questioncreate"),
+    
+    
+    path('question/new',create_question,name="create_question"),
+    
+    
     path('question/<int:pk>/update',QuestionUpdateView.as_view(),name="Questionupdate"),
     path('question/<int:pk>/delete',QuestionDeleteView.as_view(),name="Questiondelete"),
     
@@ -13,5 +17,6 @@ urlpatterns = [
     
     path('like/<int:pk>',like_views,name="like_post"),
     path('get_like_count/<int:pk>/', get_like_count, name='get_like_count'),
+    path('get_like_count_comment/<int:pk>/', get_like_count_comment, name='get_like_count_comment'),
 
 ]

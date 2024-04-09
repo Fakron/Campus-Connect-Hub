@@ -110,40 +110,24 @@
                 <div class="p-3">
                     <ul>
                         <li>
-                            <a href=""
+                            <a href="{% url 'Questionlist' %}"
                                 class="flex mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
                                 <span class="mt-2 ">All</span>
-                                <span class="bg-dark py-2 px-4 text-white font-semibold">343</span>
+                                <span class="bg-dark py-2 px-4 text-white font-semibold">{{ questions.count }}</span>
                             </a>
                         </li>
+
+                        {% for category in categories %}
+                     
+
                         <li>
-                            <a href=""
-                                class="flex mt-4 mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
-                                <span class="mt-2">Python</span>
-                                <span class="bg-dark py-2 px-4 text-white font-semibold">343</span>
+                            <a href="?category={{ category.id }}" class="{% if category.id == selected_category %}selected{% endif %} flex mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
+                                <span class="mt-2 ">{{category.name}}</span>
+                                <span
+                                    class="bg-dark py-2 px-4 text-white font-semibold">{{category.total_questions}}</span>
                             </a>
-                        </li>
-                        <li>
-                            <a href=""
-                                class="flex mt-4 mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
-                                <span class="mt-2">Java</span>
-                                <span class="bg-dark py-2 px-4 text-white font-semibold">343</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href=""
-                                class="flex mt-4 mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
-                                <span class="mt-2">Javascript</span>
-                                <span class="bg-dark py-2 px-4 text-white font-semibold">343</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href=""
-                                class="flex mt-4 mb-4 text-lg justify-between items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
-                                <span class="mt-2">Ruby</span>
-                                <span class="bg-dark py-2 px-4 text-white font-semibold">343</span>
-                            </a>
-                        </li>
+                          </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -235,10 +219,9 @@
             </nav>
             <br>
 
-            <form class="ml-5 max-w-4xl">
-                <label for="default-search"
-                    class="mb-2 text-sm font-medium text-gray-900 dark:text-white sr-only">Search</label>
-                <div class="relative">
+            <form class="ml-5 max-w-4xl flex items-center" action="" method="GET">
+                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 dark:text-white sr-only">Search</label>
+                <div class="relative flex-grow">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -246,17 +229,21 @@
                                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                         </svg>
                     </div>
-                    <input type="search" id="default-search"
+                    <input type="search" id="default-search" name="search-area"
                         class="rounded-lg block w-full p-4 ps-10 text-sm text-gray-900 bg-gray-700 dark:placeholder-gray-40 dark:focus:ring-blue-500 "
-                        placeholder="Search Mockups, Logos..." required>
+                        placeholder="Search Mockups, Logos...">
                     <button type="submit"
                         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                 </div>
+                <a href="{% url 'create_question' %}" class="text-white ml-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Ask a Question</a>
             </form>
+            
+
 
             <div class="tab-pane fade active show mt-8" id="recent-questions" role="tabpanel"
                 aria-labelledby="recent-questions-tab">
 
+                {% if questions %}
                 {% for question in questions %}
                 <div class="rounded-xl bg-gray-800 ml-5 w-11/12 mt-5 p-4 h-auto flex flex-col">
                     <div class="flex">
@@ -268,7 +255,7 @@
                             <div class="donet-like-list text-white">
                                 <button class="like-unlink-count like">
                                     <i class="ri-thumb-up-fill text-3xl mt-10"></i><br>
-                                    <span>4974</span>
+                                    <span>{{question.total_likes}}</span>
                                 </button>
                             </div>
                             <br>
@@ -297,13 +284,14 @@
                                 </a>
                             </h3>
 
-                            {% if question.content|wordcount <= 100 %} 
-                                <p class="mb-8 text-white">{{ question.content }}</p>
-                            {% else %}
+                            {% if question.content|wordcount <= 100 %} <p class="mb-8 text-white">{{ question.content }}
+                                </p>
+                                {% else %}
                                 <div class="truncate-content">
                                     <p class="mb-8 text-white w-11/12">
-                                        {{ question.content|truncatewords_html:100 }}<a href="#"
-                                            class="read-more-link">Read More</a>
+                                        {{ question.content|truncatewords_html:100 }}<a
+                                            href="{% url 'Questiondetail' question.id %}"
+                                            class="read-more-link text-cyan-500">Read More</a>
                                     </p>
                                 </div>
                                 {% endif %}
@@ -356,13 +344,45 @@
                 </div>
                 <br>
                 {% endfor %}
-
-
-
-
+                {% else %}
+                <!-- Display a message if no questions were found -->
+                <p class="text-white">No questions found matching your search criteria.</p>
+                {% endif %}
             </div>
 
+
+            <!-- Pagination -->
+            <div class="flex justify-center mt-5 mr-14">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {% if questions.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ questions.previous_page_number }}">Previous</a>
+                        </li>
+                        {% endif %}
+                        {% for num in questions.paginator.page_range %}
+                        <li class="page-item {% if num == questions.number %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endfor %}
+                        {% if questions.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ questions.next_page_number }}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ questions.paginator.num_pages }}">Last</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+
+
         </div>
+
 
         <div class="w-1/5 bg-gray-900 mr-5 mt-5">
 
@@ -374,65 +394,28 @@
                 </div>
                 <div class="p-4">
                     <!-- Recent activity-->
-                    <div class="bg-gray-700 rounded-lg p-3 mb-3">
-                        <div class="flex items-center">
-                            <div
-                                class="w-10 h-10 rounded-full flex-shrink-0 flex justify-center items-center mr-3 mb-5">
-                                <img src="{% static 'img/user-1.jpg'%}" alt="User Image"
-                                    class="w-full h-full rounded-full">
-                            </div>
-                            <div>
-                                <span class="text-cyan-400 font-semibold">@Harry Wilson</span><br>
-                                <span class="text-gray-500 font-semibold">1 minutes ago</span><br>
-                                <span class="text-gray-400 font-semibold">Replied to post</span>
-                            </div>
-                        </div>
-                    </div>
+                    {% for comment in comments %}
 
                     <div class="bg-gray-700 rounded-lg p-3 mb-3">
                         <div class="flex items-center">
                             <div
                                 class="w-10 h-10 rounded-full flex-shrink-0 flex justify-center items-center mr-3 mb-5">
-                                <img src="{% static 'img/user-1.jpg'%}" alt="User Image"
+                                <img src="{{comment.user.profile.image.url}}" alt="User Image"
                                     class="w-full h-full rounded-full">
                             </div>
                             <div>
-                                <span class="text-cyan-400 font-semibold">@Harry Wilson</span><br>
-                                <span class="text-gray-500 font-semibold">1 minutes ago</span><br>
-                                <span class="text-gray-400 font-semibold">Replied to post</span>
+                                <span class="text-cyan-400 font-semibold">@{{comment.user.username}}</span><br>
+                                <span class="text-gray-500 font-semibold">{{comment.date_created}} ago</span><br>
+                                <span class="text-gray-400 font-semibold"><a
+                                        href="{% url 'Questiondetail' comment.question.id %}">Replied to post</a></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-gray-700 rounded-lg p-3 mb-3">
-                        <div class="flex items-center">
-                            <div
-                                class="w-10 h-10 rounded-full flex-shrink-0 flex justify-center items-center mr-3 mb-5">
-                                <img src="{% static 'img/user-1.jpg'%}" alt="User Image"
-                                    class="w-full h-full rounded-full">
-                            </div>
-                            <div>
-                                <span class="text-cyan-400 font-semibold">@Harry Wilson</span><br>
-                                <span class="text-gray-500 font-semibold">1 minutes ago</span><br>
-                                <span class="text-gray-400 font-semibold">Replied to post</span>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
 
-                    <div class="bg-gray-700 rounded-lg p-3 mb-3">
-                        <div class="flex items-center">
-                            <div
-                                class="w-10 h-10 rounded-full flex-shrink-0 flex justify-center items-center mr-3 mb-5">
-                                <img src="{% static 'img/user-1.jpg'%}" alt="User Image"
-                                    class="w-full h-full rounded-full">
-                            </div>
-                            <div>
-                                <span class="text-cyan-400 font-semibold">@Harry Wilson</span><br>
-                                <span class="text-gray-500 font-semibold">1 minutes ago</span><br>
-                                <span class="text-gray-400 font-semibold">Replied to post</span>
-                            </div>
-                        </div>
-                    </div>
+
+
                 </div>
             </div>
 
