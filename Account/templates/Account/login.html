@@ -24,7 +24,7 @@
 
                 <div class="mx-auto max-w-md px-5 py-16 md:px-10 md:py-24 lg:py-32 text-white z-10">
                     <div class="mb-5 flex h-14 w-14 flex-col items-center justify-center">
-                        <img src="{% static " img/image.png" %}" alt="" class="inline-block" />
+                        <img src="{% static 'img/image.png' %}" alt="" class="inline-block" />
                     </div>
                     <p class="mb-8 text-sm sm:text-base md:mb-12 lg:mb-16">Lorem ipsum dolor sit amet, consectetur
                         adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna,
@@ -36,8 +36,7 @@
             <!-- Component -->
             <div class="flex items-center justify-center px-5 py-16 md:px-10 md:py-24 lg:py-32 bg-[#f2f2f7]">
                 <div class="max-w-md text-center">
-                    <h2 class="mb-8 text-3xl text-black font-bold md:mb-12 md:text-5xl lg:mb-16">Join Campus Connect Hub
-                        Today</h2>
+                    <h2 class="mb-8 text-3xl text-black font-bold md:mb-12 md:text-5xl lg:mb-16">Connect with Campus Connect Hub: Log in</h2>
                     <!-- Form -->
                     <div class="mx-auto mb-2 max-w-[400px] pb-4">
                         {% if messages %}
@@ -71,6 +70,7 @@
                                 <span class="ml-4 inline-block cursor-pointer text-sm" for="checkbox">I agree with the
                                     <a href="#" class="font-bold text-[#0b0b1f]">Terms &amp; Conditions</a></span>
                             </label>
+                            
 
                             <input type="submit" value="Join Campus Connect Hub"
                                 class="inline-block w-full cursor-pointer items-center bg-black px-6 py-3 text-center font-semibold text-white" />
@@ -78,8 +78,8 @@
 
 
                     </div>
-                    <p class="text-sm text-[#636262] sm:text-sm">Already have an account? <a href="#"
-                            class="font-bold text-[#0b0b1f]">Login now</a>
+                    <p class="text-sm text-[#636262] sm:text-sm">"Don't have an account?  <a href="{% url 'register' %}"
+                            class="font-bold text-[#0b0b1f]">Register here</a>
                     </p>
                 </div>
             </div>

@@ -6,31 +6,46 @@ from . forms import RoomForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib import messages
-
-# Create your views here.
-
-
-# rooms = [
-#     {'id':1, 'name':'lets Learn python'},
-#     {'id':2, 'name':'lets Learn C'},
-#     {'id':3, 'name':'lets Learn Java'},
-# ]
+from django.utils import timezone
 
 
 @login_required(login_url='login')
 def community(request):
-    
-    q=request.GET.get('q') if request.GET.get('q') != None else ''
-    
+    q = request.GET.get('q', '')
+    topic_name = request.GET.get('topic', '')  # Get the selected topic from query parameters
+
     rooms = Room.objects.filter(Q(topic__name__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q))
     
+    # logged = request.user
+    
+    # for room in rooms:
+    #     if logged in room.participant.all():
+    #         print(True)
+    
+    
+    logged_user = request.user
+    
+    # Retrieve the rooms (communities) that the user has joined
+    joined_rooms = Room.objects.filter(participant=logged_user)
+    
+    # Retrieve the recent messages for the joined rooms
+    recent_messages = Message.objects.filter(room__in=joined_rooms)
+
+
+    
+    # Filter rooms based on the selected topic
+    if topic_name and topic_name != 'all':
+        rooms = rooms.filter(topic__name__icontains=topic_name)
+
     topics = Topic.objects.all()
     room_count = rooms.count()
+        
 
     recent_activity = Message.objects.filter(Q(room__topic__name__icontains=q))
     
-    # print(room_count)
-    return render(request,"Community/community.html",{'rooms':rooms, 'topics':topics, 'room_count':room_count,'recent_activity':recent_activity})
+    
+    
+    return render(request, "Community/community.html", {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'recent_activity': recent_activity,'recent_messages':recent_messages})
 
 
 @login_required(login_url='')
@@ -55,73 +70,67 @@ def room(request,pk):
     return render(request,'Community/ChatRoom.html',context)
 
 
+@login_required
+def join_room(request, pk):
+    room = Room.objects.get(id=pk)
+    if request.user not in room.participant.all():
+        # User is not joined, so add them to the participant list
+        room.participant.add(request.user)
+    return redirect('community')  # Redirect back to the community page
+
+
 @login_required(login_url='login')
 def createRoom(request):
-    form = RoomForm
-    
-    if request.method == "POST":
-        form = RoomForm(request.POST)
+    topics = Topic.objects.all()
+    if request.method == 'POST':
+        form = RoomForm(request.POST, request.FILES)
         if form.is_valid():
             room = form.save(commit=False)
-            room.host = request.user
-            room.save()
-            return redirect('community')
-        # else:
-        #     form = RoomForm()
-        
-    context = {'form':form}
-    return render(request,'Community/room_form.html',context)
+            room.host = request.user  # Set the host user to the current logged-in user
+            # Access the uploaded image file through form.cleaned_data
+            uploaded_image = form.cleaned_data['image']
+            # Now, save the uploaded image file to your storage
+            room.image = uploaded_image  # Assign the image file to the room object
+            print(uploaded_image)
+            room.save()  # Save the room object to persist the changes
+            return redirect('community')  # Redirect to some URL after room creation
+    else:
+        form = RoomForm()
+    return render(request, 'Community/createcommunity.html', {'form': form, 'topics': topics})
+    
 
 @login_required(login_url='login')
-def updateRoom(request,pk):
-    
-    room = Room.objects.get(id=pk)
-    form = RoomForm(instance=room)
-    
-    if request.user != room.host:
-        return HttpResponse('You are not allowed here')
+def updateRoom(request, pk):
+    # Retrieve the room object by its ID
+    room = get_object_or_404(Room, id=pk)
+    topics = Topic.objects.all()
 
-    if request.method == "POST":
-        form = RoomForm(request.POST,instance=room)
+    if request.method == 'POST':
+        form = RoomForm(request.POST, request.FILES, instance=room)
         if form.is_valid():
             form.save()
-            return redirect('community')
-    context = {'form':form}
-    
-    return render(request,'Community/room_form.html',context)
+            return redirect('community')  # Redirect to some URL after room update
+   
+    else:
+        # If it's a GET request, initialize the form with existing room data
+        form = RoomForm(instance=room)
 
-
-# @login_required(login_url='login')
-# def deleteRoom(request, pk):
-#     room = get_object_or_404(Room, pk=pk)
-    
-#     if request.user != room.host:
-#         return HttpResponse('You are not allowed here')
-
-#     if request.method == "POST":
-#         room.delete()
-#         return redirect('community')
-    
-#     return render(request, 'Community/delete.html', {'obj': room})
-
+    return render(request, 'Community/updatecommunity.html', {'form': form, 'room':room,'topics': topics})
 
 
 @login_required(login_url='login')
 def deleteRoom(request, pk):
     room = get_object_or_404(Room, pk=pk)
-    print("hello")
-    # print(request.user)
-    # print(room.host)
-    print("------------")
+    # print("hello")
+    # print("------------")
     if request.user != room.host:
         return HttpResponse('You are not allowed here')
     
     if request.method == 'POST':
-        print("hello")
-        
+        # print("hello")
         if request.user == room.host:
             room.delete()
-            print("hello")
+            # print("hello")
             messages.success(request, 'Question deleted successfully.')
             return redirect('community')
         else:
@@ -129,9 +138,6 @@ def deleteRoom(request, pk):
             return redirect(reverse('room', kwargs={'pk': pk}))
     
     return redirect('home')  
-
-
-
 
 @login_required(login_url='login')
 def deleteMessage(request,pk):

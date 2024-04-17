@@ -19,7 +19,7 @@ class Room(models.Model):
     participant = models.ManyToManyField(User,related_name='participants',blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    
+    image = models.ImageField(default="default.jpg", upload_to="server_profile")
     
     class Meta:
         ordering = ['-updated','-created']

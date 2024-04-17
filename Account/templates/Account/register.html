@@ -12,6 +12,7 @@
         .error-message {
             color: red;
         }
+
         .success-message {
             color: green;
         }
@@ -21,14 +22,14 @@
 <body>
     <section>
         <!-- Container -->
-        <div class="overflow-hidden grid gap-0 md:h-screen md:grid-cols-2">
+        <div class="grid gap-0 md:h-screen md:grid-cols-2">
             <div class="relative flex items-center justify-center bg-cover"
-                style="background-image: url('{% static "img/faculty-sm-three.png" %}')">
+                style="background-image: url('{% static 'img/faculty-sm-three.png' %}')">
                 <div class="absolute inset-0 bg-black opacity-50"></div>
 
                 <div class="mx-auto max-w-md px-5 py-16 md:px-10 md:py-24 lg:py-32 text-white z-10">
                     <div class="mb-5 flex h-14 w-14 flex-col items-center justify-center">
-                        <img src="{% static "img/image.png" %}" alt="" class="inline-block" />
+                        <img src="{% static 'img/image.png' %}" alt="" class="inline-block" />
                     </div>
                     <p class="mb-8 text-sm sm:text-base md:mb-12 lg:mb-16">Lorem ipsum dolor sit amet, consectetur
                         adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna,
@@ -39,44 +40,91 @@
             </div>
             <div class="flex items-center justify-center px-5 py-16 md:px-10 md:py-24 lg:py-32 bg-[#f2f2f7]">
                 <div class="max-w-md text-center">
-                    <h2 class="mb-8 text-3xl text-black font-bold md:mb-12 md:text-5xl lg:mb-16">Register on Campus Connect Hub</h2>
+                    <h2 class="mb-8 text-3xl text-black font-bold md:mb-12 md:text-5xl lg:mb-16">Register on Campus
+                        Connect Hub</h2>
                     <!-- Registration Form -->
                     <div class="mx-auto mb-4 max-w-[400px] pb-4">
-                        <form name="wf-form-login" method="post" action="{% url 'register' %}">
+
+                        <form name="wf-form-register" method="post" action="{% url 'register' %}"
+                            enctype="multipart/form-data">
                             {% csrf_token %}
+                            <!-- First Name and Last Name -->
+                            <div class="flex mb-4">
+                                <!-- First Name -->
+                                <div class="relative mr-2">
+                                    <img alt=""
+                                    src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a9455fae6cf89_EnvelopeSimple.svg"
+                                    class="absolute left-[5%] top-[26%] inline-block" />
+                                    <input type="text" name="first_name"
+                                        class="block h-9 w-full rounded-md border border-solid border-black px-3 py-6 pl-14 text-sm text-[#333333]"
+                                        placeholder="First Name" required="" />
+                                </div>
+                                <!-- Last Name -->
+                                <div class="relative">
+                                    <img alt=""
+                                    src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a9455fae6cf89_EnvelopeSimple.svg"
+                                    class="absolute left-[5%] top-[26%] inline-block" />
+                                    <input type="text" name="last_name"
+                                        class="block h-9 w-full rounded-md border border-solid border-black px-3 py-6 pl-14 text-sm text-[#333333]"
+                                        placeholder="Last Name" required="" />
+                                </div>
+                            </div>
+
+
+                            <!-- Username -->
                             <div class="relative mb-4">
-                                <img alt="" src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a9455fae6cf89_EnvelopeSimple.svg" class="absolute left-[5%] top-[26%] inline-block" />
-                                <input type="text" name="username" class="mb-4 block h-9 w-full rounded-md border border-solid border-black px-3 py-6 pl-14 text-sm text-[#333333]" placeholder="Username" required="" />
+                                <img alt=""
+                                    src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a9455fae6cf89_EnvelopeSimple.svg"
+                                    class="absolute left-[5%] top-[26%] inline-block" />
+                                <input type="text" name="username"
+                                    class="mb-4 block h-9 w-full rounded-md border border-solid border-black px-3 py-6 pl-14 text-sm text-[#333333]"
+                                    placeholder="Username" required="" />
+                            </div>
+                            <!-- Email -->
+                            <div class="relative mb-4">
+                                <img alt=""
+                                    src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a9455fae6cf89_EnvelopeSimple.svg"
+                                    class="absolute left-[5%] top-[26%] inline-block" />
+                                <input type="email" name="email"
+                                    class="mb-4 block h-9 w-full rounded-md border border-solid border-black px-3 py-6 pl-14 text-sm text-[#333333]"
+                                    placeholder="Email Address" required="" />
+                            </div>
+                            <!-- Password -->
+                            <div class="relative mb-4">
+                                <img alt=""
+                                    src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a946794e6cf8a_Lock-2.svg"
+                                    class="absolute left-[5%] top-[26%] inline-block" />
+                                <input type="password" name="password"
+                                    class="mb-4 block h-9 w-full rounded-md border border-solid border-black px-3 py-6 pl-14 text-sm text-[#333333]"
+                                    placeholder="Password (min 8 characters)" required="" />
                             </div>
                             <div class="relative mb-4">
-                                <img alt="" src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a9455fae6cf89_EnvelopeSimple.svg" class="absolute left-[5%] top-[26%] inline-block" />
-                                <input type="email" name="email" class="mb-4 block h-9 w-full rounded-md border border-solid border-black px-3 py-6 pl-14 text-sm text-[#333333]" placeholder="Email Address" required="" />
+                                <img alt=""
+                                    src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a946794e6cf8a_Lock-2.svg"
+                                    class="absolute left-[5%] top-[26%] inline-block" />
+                                <input type="password" name="confirm_password"
+                                    class="mb-4 block h-9 w-full rounded-md border border-solid border-black px-3 py-6 pl-14 text-sm text-[#333333]"
+                                    placeholder="Confirm Password" required="" />
                             </div>
-                            <div class="relative mb-4">
-                                <img alt="" src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a946794e6cf8a_Lock-2.svg" class="absolute left-[5%] top-[26%] inline-block" />
-                                <input type="password" name="password" class="mb-4 block h-9 w-full rounded-md border border-solid border-black px-3 py-6 pl-14 text-sm text-[#333333]" placeholder="Password (min 8 characters)" required="" />
-                            </div>
-                            <div class="relative mb-4">
-                                <img alt="" src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a946794e6cf8a_Lock-2.svg" class="absolute left-[5%] top-[26%] inline-block" />
-                                <input type="password" name="confirm_password" class="mb-4 block h-9 w-full rounded-md border border-solid border-black px-3 py-6 pl-14 text-sm text-[#333333]" placeholder="Confirm Password" required="" />
-                            </div>
+
                             {% if messages %}
                             {% for message in messages %}
-                                {% if message.tags == 'error' %}
-                                    <p class="error-message">{{ message }}</p>
-                                
-                                {% else %}
-                                <p class="success-message">{{ message }}</p>
-                                {% endif %}
+                            {% if message.tags == 'error' %}
+                            <p class="error-message">{{ message }}</p>
+                            {% else %}
+                            <p class="success-message">{{ message }}</p>
+                            {% endif %}
                             {% endfor %}
                             {% endif %}
-
                             <br>
-                            <input type="submit" value="Join Campus Connect Hub" class="inline-block w-full cursor-pointer items-center bg-black px-6 py-3 text-center font-semibold text-white" />
+                            <input type="submit" value="Join Campus Connect Hub"
+                                class="inline-block w-full cursor-pointer items-center bg-black px-6 py-3 text-center font-semibold text-white" />
                         </form>
-                        
+
+
                     </div>
-                    <p class="text-sm text-[#636262] sm:text-sm">Already have an account? <a href="{% url 'login' %}" class="font-bold text-[#0b0b1f]">Login now</a></p>
+                    <p class="text-sm text-[#636262] sm:text-sm">Already have an account? <a href="{% url 'login' %}"
+                            class="font-bold text-[#0b0b1f]">Login now</a></p>
                 </div>
             </div>
         </div>

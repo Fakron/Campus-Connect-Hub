@@ -8,13 +8,20 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
+from django.contrib.auth.models import User
+from .models import Profile
+
 def user_register(request):
     if request.method == "POST":
         # Retrieve form data from request.POST
+        firstname = request.POST.get('first_name')
+        lastname = request.POST.get('last_name')
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
+        about = request.POST.get('about')  # Get about from form
+        image = request.FILES.get('image')  # Get image from form
 
         # Check if passwords match
         if password != confirm_password:
@@ -30,8 +37,12 @@ def user_register(request):
             return render(request, 'Account/register.html')
 
         # Create user
-        user = User.objects.create_user(username=username, email=email, password=password)
+        user = User.objects.create_user(username=username, email=email, password=password, first_name=firstname, last_name=lastname)
         user.save()
+
+        # Create profile for the user
+        profile = Profile.objects.create(user=user)
+        profile.save()
 
         # Render registration form with success message
         messages.success(request, f'Account Successfully Created for {username}! Login Now')
@@ -40,6 +51,7 @@ def user_register(request):
     else:
         # If request method is not POST, render the registration form
         return render(request, 'Account/register.html')
+
 
 
 

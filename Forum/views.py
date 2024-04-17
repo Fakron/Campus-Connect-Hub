@@ -104,11 +104,10 @@ class QuestionDetailView(LoginRequiredMixin, DetailView):
 # @login_required
 def create_question(request):
     categories = Category.objects.all()
-    print(request)
+    print(categories)
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
-            print("---------------")
             question = form.save(commit=False)
             question.user = request.user
             question.save()
@@ -116,15 +115,14 @@ def create_question(request):
         else:
             print(form.errors)
     else:
-        print("---HHHHHHHHHHHHHHH------------")
-        categories = Category.objects.all()
         form = QuestionForm()
         
     context = {
         'form': form,
-        'categories': categories
+        'categories': categories  # Make sure categories are included in the context
     }
     return render(request, 'Forum/createquestion.html', context=context)
+
 
     
 
