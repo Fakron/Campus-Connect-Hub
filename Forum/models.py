@@ -48,6 +48,7 @@ class Comment(models.Model):
     question = models.ForeignKey(Question,on_delete = models.CASCADE , related_name="comment")
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     content = models.TextField(null=True,blank=True)
+    parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
     date_created = models.DateTimeField(default=timezone.now)
     upvote = models.ManyToManyField(User, related_name="upvoted_comments", blank=True)  # Upvote field for comments
 

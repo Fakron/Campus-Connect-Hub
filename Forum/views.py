@@ -62,42 +62,88 @@ class QuestionListView(LoginRequiredMixin, ListView):
         return context
 
 
-class QuestionDetailView(LoginRequiredMixin, DetailView):
-    model = Question
-    template_name = 'Forum/questiondetail.html'
-    context_object_name = 'question'
+# class QuestionDetailView(LoginRequiredMixin, DetailView):
+#     model = Question
+#     template_name = 'Forum/questiondetail.html'
+#     context_object_name = 'question'
 
-    def post(self, request, *args, **kwargs):
-        question = self.get_object()
+#     def post(self, request, *args, **kwargs):
+#         question = self.get_object()
+#         content = request.POST.get('content')
+#         Comment.objects.create(question=question, user=request.user, content=content)
+#         return redirect('Questiondetail', pk=question.pk)
+    
+#     def get_context_data(self, *args, **kwargs):
+#         context = super(QuestionDetailView, self).get_context_data(*args, **kwargs)
+#         question = self.get_object()
+#         total_likes = question.total_likes()
+#         liked = False
+
+#         if question.upvote.filter(id=self.request.user.id).exists():
+#             liked = True
+        
+#         # Count the total number of comments (answers) for the question
+#         total_answers = question.comment.count()
+
+#         # Pass the comments along with their upvote count to the template
+#         comments = question.comment.all()
+#         comments_with_upvotes = []
+#         for comment in comments:
+#             upvote_count = comment.upvote.count()
+#             comments_with_upvotes.append({'comment': comment, 'upvote_count': upvote_count, 'comment_id': comment.id})
+
+#         context['total_likes'] = total_likes
+#         context['liked'] = liked
+#         context['total_answers'] = total_answers
+#         context['comments_with_upvotes'] = comments_with_upvotes
+        
+#         return context
+
+def question_detail_view(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    total_likes = question.total_likes()
+    liked = question.upvote.filter(id=request.user.id).exists()
+    total_answers = question.comment.count()
+    comments = question.comment.all()
+    comments_with_upvotes = []
+
+    for comment in comments:
+        upvote_count = comment.upvote.count()
+        comments_with_upvotes.append({'comment': comment, 'upvote_count': upvote_count, 'comment_id': comment.id})
+
+    if request.method == 'POST':
         content = request.POST.get('content')
         Comment.objects.create(question=question, user=request.user, content=content)
-        return redirect('Questiondetail', pk=question.pk)
-    
-    def get_context_data(self, *args, **kwargs):
-        context = super(QuestionDetailView, self).get_context_data(*args, **kwargs)
-        question = self.get_object()
-        total_likes = question.total_likes()
-        liked = False
+        return redirect('question_detail', pk=question.pk)
 
-        if question.upvote.filter(id=self.request.user.id).exists():
-            liked = True
-        
-        # Count the total number of comments (answers) for the question
-        total_answers = question.comment.count()
+    context = {
+        'question': question,
+        'total_likes': total_likes,
+        'liked': liked,
+        'total_answers': total_answers,
+        'comments_with_upvotes': comments_with_upvotes,
+        'comments': comments  # Pass the comments queryset to the template
+    }
+    return render(request, 'Forum/questiondetail.html', context)
 
-        # Pass the comments along with their upvote count to the template
-        comments = question.comment.all()
-        comments_with_upvotes = []
-        for comment in comments:
-            upvote_count = comment.upvote.count()
-            comments_with_upvotes.append({'comment': comment, 'upvote_count': upvote_count, 'comment_id': comment.id})
 
-        context['total_likes'] = total_likes
-        context['liked'] = liked
-        context['total_answers'] = total_answers
-        context['comments_with_upvotes'] = comments_with_upvotes
-        
-        return context
+
+
+
+def reply_comment_view(request, comment_id):
+    if request.method == 'POST':
+        # Get the parent comment object
+        parent_comment = get_object_or_404(Comment, pk=comment_id)
+        # Get the content of the reply from the form
+        content = request.POST.get('content')
+        reply_comment = Comment.objects.create(
+            question=parent_comment.question,
+            user=request.user,
+            content=content,
+            parent_comment=parent_comment
+        )
+        return redirect('Questiondetail', pk=parent_comment.question.pk)
+    # Handle other cases or render appropriate response if needed
 
 
         
