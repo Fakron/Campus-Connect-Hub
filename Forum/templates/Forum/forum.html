@@ -47,44 +47,17 @@
                 </div>
                 <div class="p-4">
                     <ul>
+                        {% for room in user_rooms %}
                         <li>
-                            <a href=""
+                            <a href="{% url 'room' room.id %}"
                                 class="flex  text-lg items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
-                                <img src="{% static 'img/design-or-animate-your-discord-server-logo.png'%}"
+                                <img src="{{room.image.url}}"
                                     alt="Community 1 Logo" class="w-12 h-12 mr-2 rounded-full">
-                                <span class="">Python Hub</span>
-
+                                <span class="">{{room.name}}</span>
                             </a>
+                            <br>
                         </li>
-                        <li>
-                            <a href=""
-                                class="flex mt-3 text-lg items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
-                                <img src="{% static 'img/chill-zone-logo.png'%}" alt="Community 2 Logo"
-                                    class="w-12 h-12 mr-2 rounded-full">
-                                <span class="">Java Hub</span>
-
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href=""
-                                class="flex mt-3 text-lg items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
-                                <img src="{% static 'img/chill-zone-logo.png'%}" alt="Community 2 Logo"
-                                    class="w-12 h-12 mr-2 rounded-full">
-                                <span class="">Java Hub</span>
-
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href=""
-                                class="flex mt-3 text-lg items-center text-gray-500 transition duration-300 ease-in-out font-bold hover:text-blue-500">
-                                <img src="{% static 'img/chill-zone-logo.png'%}" alt="Community 2 Logo"
-                                    class="w-12 h-12 mr-2 rounded-full">
-                                <span class="">Java Hub</span>
-
-                            </a>
-                        </li>
+                        {% endfor %}
 
                     </ul>
                 </div>

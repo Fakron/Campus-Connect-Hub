@@ -7,5 +7,5 @@ def event(request):
     if events:
         return render(request, 'Event/eventdetails.html', {'current_events': events})
     else:
-        return render(request, "Event,commingevent.html")
+        return render(request, "Event/commingevent.html")
 

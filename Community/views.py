@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib import messages
 from django.utils import timezone
+import uuid
 
 
 @login_required(login_url='login')
@@ -49,25 +50,25 @@ def community(request):
 
 
 @login_required(login_url='')
-def room(request,pk):
+def room(request, pk):
     room = Room.objects.get(id=pk)
     print(room.host)
+    user_rooms = Room.objects.filter(participant=request.user)
     room_messages = room.message_set.all().order_by('-created')
     participants = room.participant.all()
-    
+
     if request.method == "POST":
         message = Message.objects.create(
-            
-            user = request.user,
-            room = room,
-            body = request.POST.get('body')
-            
+            user=request.user,
+            room=room,
+            body=request.POST.get('body')
         )
         room.participant.add(request.user)
-        return redirect('room',pk=room.id)
-    context = {'room':room,'room_messages':room_messages,'participants':participants}
-    
-    return render(request,'Community/ChatRoom.html',context)
+        return redirect('room', pk=room.id)
+
+    context = {'room': room, 'room_messages': room_messages, 'participants': participants,'user_rooms':user_rooms}
+    return render(request, 'Community/ChatRoom.html', context)
+
 
 
 @login_required
@@ -87,6 +88,9 @@ def createRoom(request):
         if form.is_valid():
             room = form.save(commit=False)
             room.host = request.user  # Set the host user to the current logged-in user
+            
+            room.unique_id = uuid.uuid4().hex[:6]  # Generate a random 6-character unique ID
+
             # Access the uploaded image file through form.cleaned_data
             uploaded_image = form.cleaned_data['image']
             # Now, save the uploaded image file to your storage
@@ -97,7 +101,18 @@ def createRoom(request):
     else:
         form = RoomForm()
     return render(request, 'Community/createcommunity.html', {'form': form, 'topics': topics})
-    
+
+
+@login_required(login_url='login')
+def join_room_by_id(request, unique_id):
+    room = Room.objects.filter(unique_id=unique_id).first()
+    if room:
+        if request.user not in room.participant.all():
+            room.participant.add(request.user)
+        return redirect('room', pk=room.id)  # Redirect to the room page
+    else:
+        # Handle invalid unique IDs
+        return HttpResponse("Room not found or expired.")   
 
 @login_required(login_url='login')
 def updateRoom(request, pk):

@@ -1,12 +1,10 @@
 from django.urls import path
-from .views import QuestionListView,question_detail_view, reply_comment_view, create_question, QuestionUpdateView, QuestionDeleteView, like_views, get_like_count,get_like_count_comment
+from .views import question_list_view,question_detail_view, reply_comment_view, create_question, QuestionUpdateView, QuestionDeleteView, like_views, get_like_count,get_like_count_comment
 
 urlpatterns = [
-    path('', QuestionListView.as_view(), name="Questionlist"),
+    path('', question_list_view, name="Questionlist"),
     path('questions/<int:pk>/',question_detail_view,name="Questiondetail"),
     path('reply_comment/<int:comment_id>/', reply_comment_view, name='reply_comment'),
-
-    
     
     path('question/new',create_question,name="create_question"),
     

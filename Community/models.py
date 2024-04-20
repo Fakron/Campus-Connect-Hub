@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 # Create your models here.
-
-
 
 class Topic(models.Model):
     name = models.CharField(max_length=200)
@@ -10,20 +9,21 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 
+
 class Room(models.Model):
-    
-    host = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
-    topic = models.ForeignKey(Topic,on_delete=models.SET_NULL,null=True)
+    host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    participant = models.ManyToManyField(User,related_name='participants',blank=True)
+    participant = models.ManyToManyField(User, related_name='participants', blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(default="default.jpg", upload_to="server_profile")
-    
+    # Add a field to store the unique identifier for the room
+    unique_id = models.CharField(max_length=6, default=uuid.uuid4().hex[:6], unique=True)  
+
     class Meta:
-        ordering = ['-updated','-created']
-        
+        ordering = ['-updated', '-created']
         
     def __str__(self):
         return self.name
