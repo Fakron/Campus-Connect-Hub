@@ -25,7 +25,8 @@
                     <a href="{% url 'room' server.id %}">
                         <li class="flex items-center mb-2">
                             <!-- Assuming each server has an image -->
-                            <img src="{{ server.image.url }}" alt="{{ server.name }}" class="w-14 h-14 rounded-full mr-3">
+                            <img src="{{ server.image.url }}" alt="{{ server.name }}"
+                                class="w-14 h-14 rounded-full mr-3">
                             <div class="flex flex-col">
                                 <!-- Display the name of the server -->
                                 <span class="text-white font-semibold text-lg mt-3">{{ server.name }}</span>
@@ -33,8 +34,8 @@
                             </div>
                         </li>
                     </a>
-                {% endfor %}
-                
+                    {% endfor %}
+
 
 
                 </ul>
@@ -56,25 +57,15 @@
                         </svg>
                         <span class="text-white font-semibold text-lg ml-2">Study Room</span>
                     </button>
-                    <button id="generate-link">
+                    <button id="generate-link" class="" style="margin-left: 720px; margin-top: -8px;">
                         <svg enable-background="new 0 0 24 24" height="22" viewBox="0 0 24 24" width="22"
                             xmlns="http://www.w3.org/2000/svg">
                             <title>Copy link</title>
+                            <path fill="none" d="M0 0h24v24H0V0z" />
                             <path fill="white"
-                                d="m23.5 22h-15c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h15c.276 0 .5.224.5.5s-.224.5-.5.5z" />
-                            <g>
-                                <g>
-                                    <path fill="white" stroke-width="2"
-                                        d="m2.5 22c-.131 0-.259-.052-.354-.146-.123-.123-.173-.3-.133-.468l1.09-4.625c.021-.09.067-.173.133-.239l14.143-14.143c.565-.566 1.554-.566 2.121 0l2.121 2.121c.283.283.439.66.439 1.061s-.156.778-.439 1.061l-14.142 14.141c-.065.066-.148.112-.239.133l-4.625 1.09c-.038.01-.077.014-.115.014zm1.544-4.873-.872 3.7 3.7-.872 14.042-14.041c.095-.095.146-.22.146-.354 0-.133-.052-.259-.146-.354l-2.121-2.121c-.19-.189-.518-.189-.707 0zm3.081 3.283h.01z" />
-                                </g>
-                                <g>
-                                    <path fill="white" stroke-width="2"
-                                        d="m17.889 10.146c-.128 0-.256-.049-.354-.146l-3.535-3.536c-.195-.195-.195-.512 0-.707s.512-.195.707 0l3.536 3.536c.195.195.195.512 0 .707-.098.098-.226.146-.354.146z" />
-                                </g>
-                            </g>
+                                d="M18 2H8C6.9 2 6 2.9 6 4v14H4c-1.1 0-2 .9-2 2s.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 14H7V5h10v11z" />
                         </svg>
                     </button>
-                    ''
 
 
                     {% if room.host == request.user %}
@@ -152,7 +143,6 @@
                     <div class="text-gray-400 font-semibold mt-5">{{room.created}} ago</div>
                 </div>
             </div>
-
             <div
                 class="rounded-lg bg-gray-700 ml-2 mt-5 p-4 flex flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-black-700">
                 {% for message in room_messages %}
@@ -166,11 +156,10 @@
                             </div>
                             <div class="text-gray-400 font-medium">Sent at {{message.created}}</div>
                         </div>
-                        <div class="flex items-center"> <!-- Moved this div here -->
+                        <div class="flex items-center">
                             {% if message.user == request.user %}
                             <div class="items-end flex justify-end gap-2 mr-2">
-                                <!-- Changed this div to a div for better alignment -->
-                                <button>
+                                <button class="edit-btn">
                                     <svg enable-background="new 0 0 24 24" height="22" viewBox="0 0 24 24" width="22"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <title>Edit</title>
@@ -187,7 +176,6 @@
                                             </g>
                                         </g>
                                     </svg>
-
                                 </button>
                                 <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none"
@@ -200,22 +188,25 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="text-gray-400 font-semibold text-base mt-2 ml-1">
-                        {{message.body}}
+                    <div class="editable-text text-gray-400 font-semibold text-base mt-2 ml-1" contenteditable="false"
+                        value="{{ message.id }}">
+                        {{ message.body }}
+                        
                     </div>
+
                 </div>
                 {% endfor %}
-
-
-
             </div>
+
+
+
             <div class="room__message flex items-center mt-3">
                 <form id="message-form" action="" method="POST">
                     {% csrf_token %}
                     <input id="message-input"
-                    class="custom-input-style ml-5 mb-3 h-12 bg-gray-800 text-gray-300 px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:border-cyan-400"
-                    name="body" placeholder="Write your message here..." style="width: 1000px;"/>
-                
+                        class="custom-input-style ml-5 mb-3 h-12 bg-gray-800 text-gray-300 px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:border-cyan-400"
+                        name="body" placeholder="Write your message here..." style="width: 1000px;" />
+
                 </form>
             </div>
 
@@ -263,6 +254,86 @@
         }
     }
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editButtons = document.querySelectorAll('.edit-btn');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const thread = this.closest('.thread');
+                const editableText = thread.querySelector('.editable-text');
+
+                // Toggle contenteditable attribute
+                editableText.contentEditable = 'true';
+
+                // Set focus to the editable text
+                editableText.focus();
+
+                // Save the original text
+                const originalText = editableText.innerHTML;
+
+                // Listen for Enter key press
+                editableText.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        // Update the message here
+                        const newText = this.innerHTML;
+
+                        console.log("New text:", newText); // Log the new text to the console
+
+                        // Check if newText is not empty or null
+                        if (!newText.trim()) {
+                            console.error("New text is empty or null"); // Log an error if newText is empty or null
+                            return; // Exit the function early if newText is empty or null
+                        }
+
+                        var divElement = document.querySelector('.editable-text');
+
+                        // Get the value of the message.id attribute
+                        var messageIdValue = divElement.getAttribute('value');
+
+                        console.log(messageIdValue)
+
+                        const updateUrl = "{% url 'update_message' pk='__pk__' %}".replace('__pk__', messageIdValue);
+
+
+
+                        // Send AJAX request to update the message
+                        fetch(updateUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: JSON.stringify({ new_message_body: newText })
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                // Toggle contenteditable attribute back to false
+                                this.contentEditable = 'false';
+                            })
+                            .catch(error => {
+                                console.error('There was a problem with the fetch operation:', error);
+                            });
+                    }
+                });
+
+                // Listen for blur event (focus lost)
+                editableText.addEventListener('blur', function () {
+                    // If the text was not edited, revert to original text
+                    if (this.innerHTML === originalText) {
+                        this.contentEditable = 'false';
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+
 
 <script>
     // Function to generate a shareable link and copy it to the clipboard

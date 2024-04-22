@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+import json
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render,redirect,get_object_or_404
 from django.db.models import Q
 from . models import Room,Topic,Message
@@ -165,4 +166,35 @@ def deleteMessage(request,pk):
         message.delete()
         return redirect('community')
     return render(request,'Community/delete.html',{'obj':message})
+
+@login_required(login_url='login')
+def update_message(request, pk):
+    message = Message.objects.get(id=pk)
+
+    if request.user != message.user:
+        return HttpResponse('You are not allowed here')
+    
+    #  # Print the request method (e.g., GET or POST)
+    # print("Request method:", request.method)
+
+    # # Print the request body
+    # print("Request body:", request.body)
+
+    if request.method == "POST":
+        
+        json_data = json.loads(request.body.decode('utf-8'))
+        
+        # Extract the new message body directly
+        new_message_body = json_data['new_message_body'].strip()  # Remove leading/trailing whitespace if needed
+
+        # Update the message body with the new message body
+        message.body = new_message_body
+        message.save()
+        return JsonResponse({'success': True})  # Respond with a JSON success message
+    
+
+    return JsonResponse({'error': 'Invalid request'}) 
+
+
+
     

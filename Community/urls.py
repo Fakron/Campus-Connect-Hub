@@ -10,6 +10,8 @@ urlpatterns = [
     path('join-room/<str:pk>/', views.join_room, name='join-room'),
     path('delete-room/<str:pk>',views.deleteRoom,name="delete-room"),
     path('delete-message/<str:pk>',views.deleteMessage,name="delete-message"),
+    path('update_message/<str:pk>/', views.update_message, name='update_message'),
+
     path('join/<str:unique_id>/', views.join_room_by_id, name='join_room_by_id'),
     
 ]

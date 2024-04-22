@@ -48,28 +48,30 @@
       </a>
       <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <button type="button"
-                class="flex text-sm bg-gray-900 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 relative"
-                id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
-                data-dropdown-placement="bottom">
-            <span class="sr-only">Open user menu</span>
-            <img class="w-8 h-8 rounded-full" src="{{ user.profile.image.url }}" alt="user photo"
-                 id="user-menu-toggle" />
-            <!-- Dropdown menu -->
-            <div
-                    class="z-50 hidden absolute mt-2 w-100 py-2 bg-white rounded-lg shadow-xl dark:bg-gray-700 dark:divide-gray-600"
-                    id="user-dropdown" style="width: 150px;">
-                <ul class="py-2" aria-labelledby="user-menu-button">
-                    <li>
-                        <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-                    </li>
-                </ul>
-            </div>
+          class="flex text-sm bg-gray-900 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 relative"
+          id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+          data-dropdown-placement="bottom">
+          <span class="sr-only">Open user menu</span>
+          <img class="w-8 h-8 rounded-full" src="{{ user.profile.image.url }}" alt="user photo" id="user-menu-toggle" />
+          <!-- Dropdown menu -->
+          <div
+            class="z-50 hidden absolute mt-2 w-100 py-2 bg-white rounded-lg shadow-xl dark:bg-gray-700 dark:divide-gray-600"
+            id="user-dropdown" style="width: 150px;">
+            <ul class="py-2" aria-labelledby="user-menu-button">
+              <li>
+                <a href="{% url 'profile' %}"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
+              </li>
+              <li>
+                <a href="{% url 'logout' %}"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
+                  out</a>
+              </li>
+            </ul>
+          </div>
         </button>
-    </div>
-    
+      </div>
+
 
 
       <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
@@ -152,15 +154,15 @@
     </div>
   </div>
 
-  <script>
+  <!-- <script>
     function updateCountdown() {
       var daysElement = document.getElementById("days");
       var hoursElement = document.getElementById("hours");
       var minutesElement = document.getElementById("minutes");
       var secondsElement = document.getElementById("seconds");
 
-      // Get the time remaining
-      var timeRemaining = parseInt("{{ time_remaining.total_seconds }}");
+      // Set the static time remaining in seconds
+      var timeRemaining = 10 * 60; // 10 minutes in seconds
 
       if (timeRemaining <= 0) {
         // If time remaining is negative or zero, display all zeros
@@ -190,7 +192,31 @@
     }
     // Start the countdown
     updateCountdown();
-  </script>
+  </script> -->
+  <script>
+    {% if time_remaining_js %}
+        {{ time_remaining_js|safe }}
+        
+        var x = setInterval(function () {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+
+          
+
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+        }, 1000);
+    {% endif %}
+</script>pt>
+
+
 
   <script>
     // JavaScript to toggle dropdown menu on click
