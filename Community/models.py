@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from PIL import Image
 # Create your models here.
 
 class Topic(models.Model):
@@ -19,7 +20,6 @@ class Room(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(default="default.jpg", upload_to="server_profile")
-    # Add a field to store the unique identifier for the room
     unique_id = models.CharField(max_length=6, default=uuid.uuid4().hex[:6], unique=True)  
 
     class Meta:
@@ -27,6 +27,16 @@ class Room(models.Model):
         
     def __str__(self):
         return self.name
+    
+    def save(self,*args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.image.path)
+        if(img.height > 300 or img.width > 300):
+            output_size = (300,300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+    
+    
     
 
 class Message(models.Model):

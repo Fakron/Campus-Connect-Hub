@@ -97,15 +97,11 @@
             </p>
 
             <ul class="tag-list flex space-x-4 mb-4">
+              {% for tag in question.tags.all %}
               <li>
-                <a href="tags.html" class="border px-2 py-1 rounded text-white">Discussion</a>
+                  <a href="" class="border px-2 py-1 rounded text-white">{{ tag.name }}</a>
               </li>
-              <li>
-                <a href="tags.html" class="border px-2 py-1 rounded text-white">Photoshop</a>
-              </li>
-              <li>
-                <a href="tags.html" class="border px-2 py-1 rounded text-white">Analytics</a>
-              </li>
+              {% endfor %}
             </ul>
             <br>
 
@@ -113,23 +109,10 @@
               <ul class="anser-list flex space-x-10">
 
                 <li>
-                  <a href="polls.html"> 24 Vote </a>
-                </li>
-                <li>
-                  <a href="most-answered.html"> 2 Answer </a>
-                </li>
-                <li>
-                  <a href="most-visited.html"> 658 Views </a>
-                </li>
-                <li>
-                  <ul class="qa-share">
-                    <li class="share-option">
-                      <span>
-                        <i class="ri-share-fill"></i>
-                      </span>
-                    </li>
-                  </ul>
-                </li>
+                  <a href="most-answered.html"> {{question.comment.count}} Answer </a>
+              </li>
+              
+              
               </ul>
               <!-- Update and Delete buttons -->
               {% if user.is_authenticated and question.user == user %}
@@ -162,25 +145,7 @@
       <div class="flex justify-between items-center">
         <h2 class="ml-5 text-xl font-bold text-cyan-500">{{total_answers}} Answer</h2>
 
-        <div class="relative">
-          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-            class="mr-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            type="button">
-            Sort
-            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-              viewBox="0 0 10 6">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="m1 1 4 4 4-4" />
-            </svg>
-          </button>
-
-          <!-- Dropdown menu -->
-          <div id="dropdownMenu" class="absolute hidden bg-white mt-2 rounded-lg shadow-lg z-10">
-            <ul class="py-1">
-              <li><a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Most Liked</a></li>
-              <li><a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Other Option</a></li>
-            </ul>
-          </div>
+        
         </div>
 
 
@@ -197,7 +162,7 @@
         <footer class="flex justify-between items-center mb-2">
           <div class="flex items-center">
             <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
-              <img class="mr-2 w-6 h-6 rounded-full" src="{{ comment_data.comment.user.image.url }}"
+              <img class="mr-2 w-6 h-6 rounded-full" src="{{ comment_data.comment.user.profile.image.url }}"
                 alt="Profile Image">
               {{ comment_data.comment.user.username }}
             </p>
@@ -510,7 +475,7 @@
   });
 </script>
 
-<script>
+<!-- <script>
   document.addEventListener("DOMContentLoaded", function () {
     var button = document.getElementById("dropdownDefaultButton");
     var dropdownMenu = document.getElementById("dropdownMenu");
@@ -529,6 +494,6 @@
       }
     });
   });
-</script>
+</script> -->
 
 {% endblock %}

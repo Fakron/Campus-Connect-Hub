@@ -1,6 +1,7 @@
 {% extends 'Forum/base.html' %}
 {% load static %}
 
+
 {% block content %}
 <div class="flex">
   <div class="w-1/5 bg-gray-900 rounded-lg ml-10">
@@ -20,23 +21,28 @@
           class="w-3/4 h-10 form-input mt-1 block rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300">
       </div>
 
+
       <div class="mb-4">
         <label for="category" class="block text-sm font-medium text-gray-400 mb-1">Category</label>
-        <select id="category" name="category" class="form-select w-3/4 h-10 mt-1 block py-2 px-3 border border-gray-600 bg-gray-800 rounded-md shadow-sm
-            focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-300">
+        <select id="category" name="category" class="select2 form-select w-3/4 h-10 mt-1 block py-2 px-3 border border-gray-600 bg-gray-800 rounded-md shadow-sm
+        focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-300" required>
           <option selected disabled>Select category</option>
           {% for category in categories %}
           <option value="{{ category.name }}" class="text-gray-300">{{ category.name }}</option>
           {% endfor %}
         </select>
+
       </div>
-      
+
+
 
       <div class="mb-4">
         <label for="tags" class="block text-sm font-medium text-gray-400 mb-1">Tags (Add up to 5 tags to
           describe what your question is about)</label>
         <input type="text" id="tags"
           class="form-input mt-1 block w-3/4 h-10 rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300">
+         <input type="hidden" id="tags-input" name="tags" value="">
+
         <div id="tags-container" class="mt-2"></div>
       </div>
 
@@ -165,55 +171,106 @@
 
 
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<!-- Initialize Select2 -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    $('.select2').select2({
+      tags: true,
+      closeOnSelect: false, // Keep the dropdown open after selection
+      dropdownParent: $('body') // Append dropdown to body to prevent clipping
+    });
+
+    $('.select2').on('select2:selecting', function (e) {
+      // Prevent default behavior of Select2 when selecting options
+      e.preventDefault();
+      var tagName = e.params.args.data.text; // Get the entered category name
+      $(this).append('<option value="' + tagName + '" selected>' + tagName + '</option>'); // Add the option to the select
+      $(this).trigger('change'); // Trigger change event to update Select2
+    });
+
+    // Handle "Enter" keypress event
+    $('.select2').on('select2:opening', function (e) {
+      var $searchField = $(this).data('select2').dropdown.$search || $(this).data('select2').selection.$search;
+      $searchField.off("keydown");
+      $searchField.on("keydown", function (e) {
+        if (e.keyCode == 13) { // Enter key code
+          var tagValue = $searchField.val();
+          if (tagValue) {
+            $(this).val(tagValue);
+            $(this).trigger('change');
+            $(this).select2('close'); // Close the dropdown
+          }
+        }
+      });
+    });
+  });
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
     const tagsInput = document.getElementById('tags');
     const descriptionInput = document.getElementById('description');
     const tagsContainer = document.getElementById('tags-container');
     const maxTags = 5;  // Maximum number of tags allowed
-
     let tags = [];
 
     tagsInput.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter' && tags.length < maxTags && tagsInput.value.trim() !== '') {
-        event.preventDefault(); // Prevent form submission
-        const tag = tagsInput.value.trim();
-        if (!tags.includes(tag)) {
-          tags.push(tag);
-          renderTags();
+        if (event.key === 'Enter' && tags.length < maxTags && tagsInput.value.trim() !== '') {
+            event.preventDefault(); // Prevent form submission
+            const tag = tagsInput.value.trim();
+            if (!tags.includes(tag)) {
+                tags.push(tag);
+                renderTags();
+                console.log(tags);
+            }
+            tagsInput.value = '';
+        } else if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent form submission
+            descriptionInput.focus(); // Focus on description textarea
         }
-        tagsInput.value = '';
-      } else if (event.key === 'Enter') {
-        event.preventDefault(); // Prevent form submission
-        descriptionInput.focus(); // Focus on description textarea
-      }
     });
 
     function renderTags() {
-      tagsContainer.innerHTML = '';
-      tags.forEach(function (tag) {
-        const tagElement = document.createElement('div');
-        tagElement.classList.add('inline-block', 'px-2', 'py-1', 'bg-gray-600', 'rounded', 'text-sm', 'text-white', 'mr-2', 'mb-2');
-        tagElement.textContent = tag;
+        tagsContainer.innerHTML = '';
+        tags.forEach(function (tag) {
+            const tagElement = document.createElement('div');
+            tagElement.classList.add('inline-block', 'px-2', 'py-1', 'bg-gray-600', 'rounded', 'text-sm', 'text-white', 'mr-2', 'mb-2');
+            tagElement.textContent = tag;
 
-        const deleteButton = document.createElement('span');
-        deleteButton.classList.add('ml-1', 'cursor-pointer');
-        deleteButton.innerHTML = '&times;';
-        deleteButton.addEventListener('click', function () {
-          tags = tags.filter(function (t) {
-            return t !== tag;
-          });
-          renderTags();
+            const deleteButton = document.createElement('span');
+            deleteButton.classList.add('ml-1', 'cursor-pointer');
+            deleteButton.innerHTML = '&times;';
+            deleteButton.addEventListener('click', function () {
+                tags = tags.filter(function (t) {
+                    return t !== tag;
+                });
+                renderTags();
+            });
+
+            tagElement.appendChild(deleteButton);
+            tagsContainer.appendChild(tagElement);
         });
-
-        tagElement.appendChild(deleteButton);
-        tagsContainer.appendChild(tagElement);
-      });
     }
-  });
 
-
+    // Update the value of the hidden input field with the selected tags before form submission
+    const form = document.querySelector('.Question_form');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            // Prevent form submission if tags field is empty
+            if (tags.length === 0) {
+                event.preventDefault();
+                alert('Please add at least one tag.');
+                return;
+            }
+            // Update the hidden input field with the selected tags
+            document.getElementById('tags-input').value = tags.join(',');
+        });
+    }
+});
 </script>
+
 
 {% endblock %}

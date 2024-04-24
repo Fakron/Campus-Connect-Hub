@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, DetailView , CreateView, UpdateView, DeleteView
 
 from Community.models import Room
-from .models import Question, Comment, Category
+from .models import Question, Comment, Category, Tag
 from django.contrib.auth.mixins import UserPassesTestMixin,LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.models import User
@@ -43,13 +43,17 @@ def question_list_view(request):
     if selected_category:
         queryset = queryset.filter(category=selected_category)
 
+    paginator = Paginator(queryset,10)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     comments = Comment.objects.order_by('-date_created')[:5]
     categories = Category.objects.all()
 
     user_rooms = Room.objects.filter(participant=request.user)
 
     context = {
-        'questions': queryset,
+        'questions': page_obj,
         'comments': comments,
         'categories': categories,
         'selected_category': selected_category,
@@ -67,12 +71,15 @@ def question_detail_view(request, pk):
 
     for comment in comments:
         upvote_count = comment.upvote.count()
+
         comments_with_upvotes.append({'comment': comment, 'upvote_count': upvote_count, 'comment_id': comment.id})
 
+    
+    
     if request.method == 'POST':
         content = request.POST.get('content')
         Comment.objects.create(question=question, user=request.user, content=content)
-        return redirect('question_detail', pk=question.pk)
+        return redirect('Questiondetail', pk=question.pk)
 
     context = {
         'question': question,
@@ -105,16 +112,32 @@ def reply_comment_view(request, comment_id):
 @login_required(login_url='login')
 def create_question(request):
     categories = Category.objects.all()
-    print(categories)
+    
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
             question.user = request.user
             question.save()
+
+            # Get or create the category
+            category_name = request.POST.get('category')
+            category, created = Category.objects.get_or_create(name=category_name)
+            # Add the category to the question's categories using the set() method
+            question.category.set([category])
+
+            # Retrieve the tags data from the submitted form data
+            tags = request.POST.get('tags')
+            # Split the tags string into a list
+            tag_list = tags.split(',')
+            # Process and save the tags data to the database
+            for tag_name in tag_list:
+                tag, created = Tag.objects.get_or_create(name=tag_name.strip())
+                question.tags.add(tag)
+
+            # Save the question again to update the many-to-many relationship
+            question.save()
             return redirect('home')
-        else:
-            print(form.errors)
     else:
         form = QuestionForm()
         
@@ -125,19 +148,50 @@ def create_question(request):
     return render(request, 'Forum/createquestion.html', context=context)
 
 
+
+@login_required(login_url='login')
+def update_question(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    categories = Category.objects.all()
+    
+    if request.method == 'POST':
+        form = QuestionForm(request.POST, instance=question)
+        if form.is_valid():
+            updated_question = form.save(commit=False)
+            updated_question.user = request.user
+            updated_question.save()
+
+            # Get or create the category
+            category_name = request.POST.get('category')
+            category, created = Category.objects.get_or_create(name=category_name)
+            # Add the category to the question's categories using the set() method
+            updated_question.category.set([category])
+
+            # Retrieve the tags data from the submitted form data
+            tags = request.POST.get('tags')
+            # Split the tags string into a list
+            tag_list = tags.split(',')
+            # Process and save the tags data to the database
+            updated_question.tags.clear()  # Clear existing tags
+            for tag_name in tag_list:
+                tag, created = Tag.objects.get_or_create(name=tag_name.strip())
+                updated_question.tags.add(tag)
+
+            # Save the question again to update the many-to-many relationship
+            updated_question.save()
+            return redirect('home')
+    else:
+        form = QuestionForm(instance=question)
+        
+    context = {
+        'form': form,
+        'categories': categories,
+        'question': question,
+    }
+    return render(request, 'Forum/updatequestion.html', context=context)
     
 
-class QuestionUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
-    model = Question
-    fields = ['title','content']
-    template_name = 'Forum/createquestion.html'
 
-    def test_func(self):
-        question = self.get_object()
-        if self.request.user == question.user:
-            return True
-        else:
-            return False
     
 
 class QuestionDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):

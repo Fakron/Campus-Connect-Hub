@@ -9,7 +9,7 @@
 </style>
 
 {% block content %}
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css" integrity="sha512-UuQ/zJlbMVAw/UU8vVBhnI4op+/tFOpQZVT+FormmIEhRSCnJWyHiBbEVgM4Uztsht41f3FzVWgLuwzUqOObKw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div class="flex">
 
     <div class="w-1/5 rounded bg-gray-900 ml-3">
@@ -57,20 +57,16 @@
                         </svg>
                         <span class="text-white font-semibold text-lg ml-2">Study Room</span>
                     </button>
-                    <button id="generate-link" class="" style="margin-left: 720px; margin-top: -8px;">
-                        <svg enable-background="new 0 0 24 24" height="22" viewBox="0 0 24 24" width="22"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <title>Copy link</title>
-                            <path fill="none" d="M0 0h24v24H0V0z" />
-                            <path fill="white"
-                                d="M18 2H8C6.9 2 6 2.9 6 4v14H4c-1.1 0-2 .9-2 2s.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 14H7V5h10v11z" />
-                        </svg>
+                    <button id="generate-link" class="ml-[750px] mr-[5px]" style="margin-top: -8px; ">
+                      
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="19"><path fill="white" d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"/></svg>
+
                     </button>
 
 
                     {% if room.host == request.user %}
                     <!-- Edit form -->
-                    <div class="flex gap-3 mr-2">
+                    <div class="flex gap-4 mr-2">
                         <form method="GET" action="{% url 'update-room' room.pk %}">
                             <button>
                                 <svg enable-background="new 0 0 24 24" height="22" viewBox="0 0 24 24" width="22"

@@ -108,7 +108,7 @@
                         </svg>
                     </div>
                     <input type="search" id="default-search" name="search-area"
-                        class="rounded-lg block w-full p-4 ps-10 text-sm text-gray-900 bg-gray-700 dark:placeholder-gray-40 dark:focus:ring-blue-500 "
+                        class="rounded-lg block w-full p-4 ps-10 text-sm text-white bg-gray-700 dark:placeholder-gray-40 dark:focus:ring-blue-500 "
                         placeholder="Search Mockups, Logos...">
                     <button type="submit"
                         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
@@ -126,7 +126,7 @@
                 <div class="rounded-xl bg-gray-800 ml-5 w-11/12 mt-5 p-4 h-auto flex flex-col">
                     <div class="flex">
                         <div class="link-unlike flex-shrink-0 text-center mr-2">
-                            <a href="user.html">
+                            <a href="">
                                 <img src="{{ question.user.profile.image.url }}" alt="Image"
                                     class="mb-8 rounded-full h-8 w-8" />
                             </a>
@@ -142,17 +142,22 @@
                         <div class="flex-grow-1 ms-3">
                             <ul class="graphic-design flex items-center space-x-4 text-cyan-400 text-lg">
                                 <li>
-                                    <a href="user.html" class="font-semibold">{{question.user.username}}</a>
+                                    <a href="" class="font-semibold">{{question.user.username}}</a>
                                 </li>
                                 <li>
                                     <span>on {{ question.date_created|date:"M. j, Y" }}</span>
                                 </li>
                                 <li>
-                                    <span>In:</span>
-                                    <a href="tags.html" class="graphic font-semibold">
-                                        Graphic design
-                                    </a>
+                                    <span>Category:</span>
+                                    {% for category in question.category.all %}
+                                        <a href="" class="graphic font-semibold">
+                                            {{ category.name }}
+                                        </a>
+                                        {% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
                                 </li>
+                                
+                                
                             </ul>
 
                             <br>
@@ -175,42 +180,26 @@
                                 {% endif %}
 
                                 <ul class="tag-list flex space-x-4 mb-4">
+                                    {% for tag in question.tags.all %}
                                     <li>
-                                        <a href="tags.html" class="border px-2 py-1 rounded text-white">Discussion</a>
+                                        <a href="" class="border px-2 py-1 rounded text-white">{{ tag.name }}</a>
                                     </li>
-                                    <li>
-                                        <a href="tags.html" class="border px-2 py-1 rounded text-white">Photoshop</a>
-                                    </li>
-                                    <li>
-                                        <a href="tags.html" class="border px-2 py-1 rounded text-white">Analytics</a>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
+                                
                                 <br>
 
                                 <div class="flex justify-between items-center text-white">
                                     <ul class="anser-list flex space-x-10">
                                         <!-- Added 'flex' and 'space-x-4' for spacing -->
+                                        
                                         <li>
-                                            <a href="polls.html"> 24 Vote </a>
+                                            <a href="most-answered.html"> {{question.comment.count}} Answer </a>
                                         </li>
-                                        <li>
-                                            <a href="most-answered.html"> 2 Answer </a>
-                                        </li>
-                                        <li>
-                                            <a href="most-visited.html"> 658 Views </a>
-                                        </li>
-                                        <li>
-                                            <ul class="qa-share">
-                                                <li class="share-option">
-                                                    <span>
-                                                        <i class="ri-share-fill"></i>
-                                                    </span>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                        
                                     </ul>
 
-                                    <a href="most-answered.html"
+                                    <a href="{% url 'Questiondetail' question.id %}"
                                         class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full inline-block transition duration-300 ">
                                         Answer
                                     </a>
@@ -230,33 +219,28 @@
 
 
             <!-- Pagination -->
-            <div class="flex justify-center mt-5 mr-14">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        {% if questions.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page=1">First</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ questions.previous_page_number }}">Previous</a>
-                        </li>
+            <div class="flex justify-center mt-5">
+                <div class="pagination">
+                    {% if questions.has_previous %}
+                        <a href="?page=1" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md mr-2">First</a>
+                        <a href="?page={{ questions.previous_page_number }}" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md mr-2">Previous</a>
+                    {% endif %}
+                    
+                    {% for num in questions.paginator.page_range %}
+                        {% if num == questions.number %}
+                            <span class="px-3 py-1 bg-blue-500 text-white rounded-md mr-2">{{ num }}</span>
+                        {% else %}
+                            <a href="?page={{ num }}" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md mr-2">{{ num }}</a>
                         {% endif %}
-                        {% for num in questions.paginator.page_range %}
-                        <li class="page-item {% if num == questions.number %}active{% endif %}">
-                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                        </li>
-                        {% endfor %}
-                        {% if questions.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ questions.next_page_number }}">Next</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ questions.paginator.num_pages }}">Last</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </nav>
+                    {% endfor %}
+                    
+                    {% if questions.has_next %}
+                        <a href="?page={{ questions.next_page_number }}" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md mr-2">Next</a>
+                        <a href="?page={{ questions.paginator.num_pages }}" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">Last</a>
+                    {% endif %}
+                </div>
             </div>
+            
 
 
         </div>
