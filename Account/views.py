@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileUpdateForm, UserUpdateForm,UserRegisterForm
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import update_session_auth_hash
+
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -41,7 +41,7 @@ def user_register(request):
         user.save()
 
         # Create profile for the user
-        profile = Profile.objects.create(user=user)
+        profile = Profile.objects.create(user=user,about=about)
         profile.save()
 
         # Render registration form with success message
@@ -85,29 +85,63 @@ def user_profile(request):
     user = request.user
     # image = user.profile.image.url
     # if user.profile.image.url 
-    
-    return render(request,'Account/profile.html')
+    context = {
+        "user":user,
+    }
+    return render(request,'Account/profile.html',context)
 
 
 def user_profile_update(request):
-
-    if request.method == "POST":
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request,f'Account updated successfully')
-            return redirect('profile')
-    else:
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
-
-    context = {
+    if request.method == 'POST':
+        # Get the submitted data from the request
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        bio = request.POST.get('bio')
         
-        'user_form' : user_form,
-        'profile_form':profile_form,
+        # Update the user's profile information
+        user = request.user
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.username = username
+        user.save()
+        
+        # Update the bio in the user's profile (assuming you have a related profile model)
+        user.profile.about = bio
+        user.profile.save()
+        
+        messages.success(request, 'Your profile has been updated successfully.')
+        return redirect('profile')  # Redirect to the user's profile page
+    else:
+        return render(request, 'Account/profile.html')
+    
 
-        }
+def update_password(request):
+    if request.method == 'POST':
+        old_password = request.POST.get('oldpassword')
+        new_password = request.POST.get('newpassword')
+        confirm_password = request.POST.get('confirmPassword')
 
-    return render(request,'Account/editprofile.html',context)
+        # Check if the new password and confirm password match
+        if new_password != confirm_password:
+            messages.error(request, 'New password and confirm password do not match.')
+            return redirect('change_password')  # Redirect back to the password change page
+
+        # Check if the old password is correct
+        if not request.user.check_password(old_password):
+            messages.error(request, 'Incorrect old password.')
+            return redirect('change_password')  # Redirect back to the password change page
+
+        # Update the user's password
+        request.user.set_password(new_password)
+        request.user.save()
+
+        # Update the session to prevent the user from being logged out
+        update_session_auth_hash(request, request.user)
+
+        messages.success(request, 'Your password was successfully updated!')
+        return redirect('profile')  # Redirect to the profile page or any other desired page
+    else:
+        return render(request, 'Account/profile.html')

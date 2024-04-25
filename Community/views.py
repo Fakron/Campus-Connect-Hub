@@ -86,11 +86,23 @@ def createRoom(request):
     topics = Topic.objects.all()
     if request.method == 'POST':
         form = RoomForm(request.POST, request.FILES)
+        print(request.POST)
         if form.is_valid():
             room = form.save(commit=False)
             room.host = request.user  # Set the host user to the current logged-in user
             
             room.unique_id = uuid.uuid4().hex[:6]  # Generate a random 6-character unique ID
+            
+            topic_name = request.POST.get('topic')
+            print("Topic name",topic_name)
+            print("room",room)
+            topic, created = Topic.objects.get_or_create(name=topic_name)
+            print(topic)
+            
+            if topic is not None:  # Check if topic is not None before setting it on room
+                room.topic = topic
+            else:
+                print("hello")
 
             # Access the uploaded image file through form.cleaned_data
             uploaded_image = form.cleaned_data['image']
@@ -114,7 +126,7 @@ def join_room_by_id(request, unique_id):
     else:
         # Handle invalid unique IDs
         return HttpResponse("Room not found or expired.")   
-
+    
 @login_required(login_url='login')
 def updateRoom(request, pk):
     # Retrieve the room object by its ID
@@ -124,7 +136,14 @@ def updateRoom(request, pk):
     if request.method == 'POST':
         form = RoomForm(request.POST, request.FILES, instance=room)
         if form.is_valid():
-            form.save()
+            # Retrieve the updated topic from the form data
+            topic_name = request.POST.get('topic')
+            topic, created = Topic.objects.get_or_create(name=topic_name)
+            
+            # Set the updated topic on the room object
+            room.topic = topic
+
+            form.save()  # Save the updated room
             return redirect('community')  # Redirect to some URL after room update
    
     else:
@@ -132,6 +151,7 @@ def updateRoom(request, pk):
         form = RoomForm(instance=room)
 
     return render(request, 'Community/updatecommunity.html', {'form': form, 'room':room,'topics': topics})
+
 
 
 @login_required(login_url='login')

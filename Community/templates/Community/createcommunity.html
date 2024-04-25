@@ -22,15 +22,19 @@
                         class="w-3/4 h-10 form-input mt-1 block rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300">
                 </div>
 
+
                 <div class="mb-4">
                     <label for="topic" class="block text-sm font-medium text-gray-400 mb-1">Topic</label>
-                    <select id="topic" name="topic" class="form-select w-3/4 h-10 mt-1 block py-2 px-3 border border-gray-600 bg-gray-800 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-300">
-                        <option selected disabled>Select topic</option>
-                        {% for topic in topics %}
-                            <option value="{{ topic.id }}" class="text-gray-300">{{ topic.name }}</option>
-                        {% endfor %}
+                    <select id="topic" name="topic" class="select2 form-select w-3/4 h-10 mt-1 block py-2 px-3 border border-gray-600 bg-gray-800 rounded-md shadow-sm
+                    focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-300" required>
+                      <option selected disabled>Select topic</option>
+                      {% for topic in topics %}
+                      <option value="{{ topic.name }}" class="text-gray-300">{{ topic.name }}</option>
+                      {% endfor %}
                     </select>
-                </div>
+            
+                  </div>
+                
                 
 
                 <div class="mb-4">
@@ -183,54 +187,41 @@
     </div>
 
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const tagsInput = document.getElementById('tags-input');
-            const descriptionInput = document.getElementById('description');
-            const tagsContainer = document.getElementById('tags-container');
-            const maxTags = 5;  // Maximum number of tags allowed
+          $('.select2').select2({
+            tags: true,
+            closeOnSelect: false, // Keep the dropdown open after selection
+            dropdownParent: $('body'), // Append dropdown to body to prevent clipping
 
-            let tags = [];
-
-            tagsInput.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter' && tags.length < maxTags && tagsInput.value.trim() !== '') {
-                    event.preventDefault(); // Prevent form submission
-                    const tag = tagsInput.value.trim();
-                    if (!tags.includes(tag)) {
-                        tags.push(tag);
-                        renderTags();
-                    }
-                    tagsInput.value = '';
-                } else if (event.key === 'Enter') {
-                    event.preventDefault(); // Prevent form submission
-                    descriptionInput.focus(); // Focus on description textarea
+          });
+      
+          $('.select2').on('select2:selecting', function (e) {
+            // Prevent default behavior of Select2 when selecting options
+            e.preventDefault();
+            var tagName = e.params.args.data.text; // Get the entered category name
+            $(this).append('<option value="' + tagName + '" selected>' + tagName + '</option>'); // Add the option to the select
+            $(this).trigger('change'); // Trigger change event to update Select2
+          });
+      
+          // Handle "Enter" keypress event
+          $('.select2').on('select2:opening', function (e) {
+            var $searchField = $(this).data('select2').dropdown.$search || $(this).data('select2').selection.$search;
+            $searchField.off("keydown");
+            $searchField.on("keydown", function (e) {
+              if (e.keyCode == 13) { // Enter key code
+                var tagValue = $searchField.val();
+                if (tagValue) {
+                  $(this).val(tagValue);
+                  $(this).trigger('change');
+                  $(this).select2('close'); // Close the dropdown
                 }
+              }
             });
-
-            function renderTags() {
-                tagsContainer.innerHTML = '';
-                tags.forEach(function (tag) {
-                    const tagElement = document.createElement('div');
-                    tagElement.classList.add('inline-block', 'px-2', 'py-1', 'bg-gray-600', 'rounded', 'text-sm', 'text-white', 'mr-2', 'mb-2');
-                    tagElement.textContent = tag;
-
-                    const deleteButton = document.createElement('span');
-                    deleteButton.classList.add('ml-1', 'cursor-pointer');
-                    deleteButton.innerHTML = '&times;';
-                    deleteButton.addEventListener('click', function () {
-                        tags = tags.filter(function (t) {
-                            return t !== tag;
-                        });
-                        renderTags();
-                    });
-
-                    tagElement.appendChild(deleteButton);
-                    tagsContainer.appendChild(tagElement);
-                });
-            }
+          });
         });
-
-
-    </script>
-
+      </script>
 {% endblock %}

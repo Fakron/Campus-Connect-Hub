@@ -28,7 +28,7 @@
                         <option value="{{ room.topic.id }}" class="text-gray-300" selected>{{ room.topic.name }}</option>
                         {% for topic in topics %}
                             {% if topic.id != room.topic.id %}
-                                <option value="{{ topic.id }}" class="text-gray-300">{{ topic.name }}</option>
+                                <option value="{{ topic.name }}" class="text-gray-300">{{ topic.name }}</option>
                             {% endif %}
                         {% endfor %}
                     </select>

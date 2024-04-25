@@ -70,7 +70,7 @@
                                 <span class="ml-4 inline-block cursor-pointer text-sm" for="checkbox">I agree with the
                                     <a href="#" class="font-bold text-[#0b0b1f]">Terms &amp; Conditions</a></span>
                             </label>
-                            
+                            <!-- Forgot Password link -->
 
                             <input type="submit" value="Join Campus Connect Hub"
                                 class="inline-block w-full cursor-pointer items-center bg-black px-6 py-3 text-center font-semibold text-white" />
@@ -81,6 +81,8 @@
                     <p class="text-sm text-[#636262] sm:text-sm">"Don't have an account?  <a href="{% url 'register' %}"
                             class="font-bold text-[#0b0b1f]">Register here</a>
                     </p>
+                    <p class="mb-4 text-[#636262]"><a href="{% url 'password_reset' %}" class="font-bold text-[#0b0b1f]">Forgot Password?</a></p>
+
                 </div>
             </div>
         </div>

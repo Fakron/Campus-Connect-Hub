@@ -3,187 +3,329 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/main.css'%} " />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" />
+  <link rel="stylesheet" href="{% static 'css/main.css'%}" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .sign-up-wrapper {
+      background-color: #333;
+      /* Dark background color */
+      color: #fff;
+      /* White text color */
+    }
+
+    /* Styling for Delete picture button */
+    .bttn-bordered {
+      background-color: #fff;
+      /* White background color */
+      border: 1px solid #6B46C1;
+      /* Dark purple border */
+      color: #6B46C1;
+      /* Dark purple text color */
+    }
+
+    .selected {
+      background-color: #6B46C1;
+      /* Example background color for selected state */
+      color: #fff;
+      /* Example text color for selected state */
+    }
+  </style>
+  <script>
+    const handelClick = (event) => {
+      try {
+        const clickedListItem = event.target.closest('li');
+        const listItems = document.querySelectorAll('ul.ml-10 li');
+
+        listItems.forEach(item => {
+          item.classList.remove('selected'); // Remove selected class from all items
+        });
+
+        clickedListItem.classList.add('selected'); // Add selected class to the clicked item
+
+        const tabName = clickedListItem.textContent.trim(); // Get the text content of the clicked item
+
+        // Hide all sections
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+          section.style.display = 'none';
+        });
+
+        // Show the corresponding section based on the clicked tab
+        if (tabName === 'Public profile') {
+          document.querySelector('.public-profile-section').style.display = 'block';
+        } else if (tabName === 'Change Password') {
+          document.querySelector('.change-password-section').style.display = 'block';
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  </script>
+
 </head>
 
-<body class="overflow-x-hidden">
-    <nav class="bg-white border-gray-200 dark:bg-gray-900">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a href="{% url 'home' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="{% static 'img/herald-white-logo.png' %}" class="h-8" alt="Flowbite Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
-          </a>
-          <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button type="button"
-                    class="flex text-sm bg-gray-900 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 relative"
-                    id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
-                    data-dropdown-placement="bottom">
-                <span class="sr-only">Open user menu</span>
-                <img class="w-8 h-8 rounded-full" src="{{ user.profile.image.url }}" alt="user photo"
-                     id="user-menu-toggle" />
-                <!-- Dropdown menu -->
-                <div
-                        class="z-50 hidden absolute mt-2 w-100 py-2 bg-white rounded-lg shadow-xl dark:bg-gray-700 dark:divide-gray-600"
-                        id="user-dropdown" style="width: 150px;">
-                    <ul class="py-2" aria-labelledby="user-menu-button">
-                        <li>
-                            <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-                        </li>
-                    </ul>
-                </div>
-            </button>
-        </div>
-        
-    
-    
-          <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-            <ul
-              class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+<body class="bg-gray-900">
+
+  <nav class="bg-white border-gray-200 dark:bg-gray-900">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <a href="{% url 'home' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <img src="{% static 'img/herald-white-logo.png' %}" class="h-8" alt="Flowbite Logo" />
+        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
+      </a>
+      <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <button type="button"
+          class="flex text-sm bg-gray-900 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 relative"
+          id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+          data-dropdown-placement="bottom">
+          <span class="sr-only">Open user menu</span>
+          <img class="w-8 h-8 rounded-full" src="{{ user.profile.image.url }}" alt="user photo" id="user-menu-toggle" />
+          <!-- Dropdown menu -->
+          <div
+            class="z-50 hidden absolute mt-2 w-100 py-2 bg-white rounded-lg shadow-xl dark:bg-gray-700 dark:divide-gray-600"
+            id="user-dropdown" style="width: 150px;">
+            <ul class="py-2" aria-labelledby="user-menu-button">
               <li>
-                <a href="{% url 'home' %}"
-                  class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-                  aria-current="page">Home</a>
-              </li>
-    
-              <li>
-                <a href="{% url 'Questionlist' %}"
-                  class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Forum</a>
+                <a href="{% url 'profile' %}"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
               </li>
               <li>
-                <a href="{% url 'community' %}"
-                  class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Community</a>
+                <a href="{% url 'logout' %}"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
+                  out</a>
               </li>
-              <li>
-                <a href="{% url 'event' %}"
-                  class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Event</a>
-              </li>
-    
             </ul>
           </div>
-        </div>
-      </nav>
+        </button>
+      </div>
+      <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
+        <ul
+          class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <li>
+            <a href="{% url 'home' %}"
+              class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
+              aria-current="page">Home</a>
+          </li>
+
+          <li>
+            <a href="{% url 'Questionlist' %}"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Forum</a>
+          </li>
+          <li>
+            <a href="{% url 'community' %}"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Community</a>
+          </li>
+          <li>
+            <a href="{% url 'event' %}"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Event</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <br>
 
 
-    <section class=" items-center justify-center h-screen w-screen">
+  <div class="flex">
 
-        <div class="flex flex-col items-center justify-center space-y-8 ">
+    <div class="w-1/5% rounded-lg ml-10">
+      <h1 class="text-white font-bold text-4xl font-semi font-weight-700 px-10 py-10  ml-4">Settings</h1>
 
-            <!-- Profile Section -->
-            <div class="w-3/5 p-4 mt-10 text-center flex items-center  rounded-lg">
-                <!-- First Quarter -->
-                <div class="w-50 p-4 mt-10 text-center">
-                    <img src="{{ user.profile.image.url }}" alt="Profile Image" class="rounded-full w-32 h-32 object-cover mx-auto mb-4">
 
-                </div>
+      <ul class="ml-10">
+        <li onclick="handelClick(event)"
+          class="main-menu-btn inline-flex items-center gap-2 py-2 px-4 bg-light-purple mb-5 selected">
+          <div class="text-wrapper-8 font-medium text-lg text-white">Public profile</div>
+        </li>
+        <br>
+        <li onclick="handelClick(event)"
+          class="free-designs-wrapper inline-flex items-center gap-2 py-2 px-4 mb-5 mr-5">
+          <div class="free-designs opacity-80 font-medium text-lg text-white">Change Password</div>
+        </li>
+        <br>
+        <li onclick="confirmLogout()" class="free-designs-wrapper inline-flex items-center gap-2 py-2 px-4 mb-5 mr-5">
+          <div class="free-designs opacity-80 font-medium text-lg text-white">Log Out</div>
+        </li>
+        <br>
+      </ul>
 
-                <!-- Second Quarter -->
-                <div class="w-60 p-4 mt-4 text-left space-y-2"> 
-                    <h1 class="text-xl font-medium">{{user.username | title}}</h1>
-                    <p class="max-w-sm text-gray-500">
-                        Member since 1 year ago<br>
-                    </p>
-                    <div class="flex items-center space-x-4">
-                        <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
-                        <span class="text-green-500">Active</span>
-                    </div>
-                </div>
 
-                <!-- Edit Profile Button -->
-                <div class="flex-shrink-0 ml-auto"> <!-- Use ml-auto for pushing it to the right -->
-                    <button type="button"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="{% url 'editprofile' %}">Edit
-                        Profile</a></button>
-                </div>
+    </div>
+
+
+    <section class="w-3/5 rounded-lg ml-10 public-profile-section">
+      <!-- Public Profile content -->
+      <h1 class="text-white font-bold text-3xl font-serif px-10 py-10" style="margin-left: 100px; margin-top: 82px;">
+        Public Profile</h1>
+
+      <form id="profileForm" action="{% url 'editprofile' %}" method="post">
+        {% csrf_token %}
+        <div class="relative">
+          <img src="{{ user.profile.image.url }}" alt="Profile Image" class="rounded-full object-cover"
+            style="margin-left: 150px; margin-top: 30px; width: 200px; height: 200px;">
+          <!-- Container for buttons -->
+          <div class="absolute top-12 left-0 " style="margin-left: 400px;">
+            <!-- Edit profile button -->
+            <button id="editProfileBtn"
+              class="sign-up-wrapper bg-gray-800 inline-flex items-center justify-center gap-2 p-3 bg-dark rounded-lg cursor-pointer mb-5 hover:opacity-80"
+              type="button">
+              <div class="text-wrapper-6 font-medium text-white text-base text-center">Edit Profile</div>
+            </button>
+          </div>
+
+          <div class="profile-form w-4/5 mt-10 " style="margin-left: 158px;">
+            <div class="mb-6 flex">
+              <div class="w-1/2 mr-2">
+                <label for="first_name" class="block text-lg font-medium text-gray-400 mb-1">First Name</label>
+                <input type="text" id="first_name" name="first_name"
+                  class="w-full h-10 form-input rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300"
+                  style="height: 50px;" value="{{ user.first_name }}" readonly>
+              </div>
+              <div class="w-1/2 ml-2">
+                <label for="last_name" class="block text-lg font-medium text-gray-400 mb-1">Last Name</label>
+                <input type="text" id="last_name" name="last_name"
+                  class="w-full h-10 form-input rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300"
+                  style="height: 50px;" value="{{ user.last_name }}" readonly>
+              </div>
             </div>
-
-            <!-- About Section -->
-            <div class="w-3/5">
-                <h2 class="text-2xl font-semibold mb-2">About Me</h2>
-                <p class="text-gray-600">
-                   {% comment %} Hello
-                    Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam vehicula
-                    elementum sed sit amet dui. Cras ultricies ligula magna dictum porta. Vestibulum ante ipsum primis
-                    in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet
-                    aliquam vel, ullamcorper sit amet ligula. Vestibulum ac diam sit amet quam vehicula elementum sed
-                    sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus suscipit tortor eget
-                    felis porttitor volutpat faucibus orci luctus et ultrices posuere .
-
-                    Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Proin eget tortor risus. Nulla quis
-                    lorem ut libero malesuada feugiat. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Sed
-                    porttitor lectus nibh. Proin eget tortor risus blandit aliquet elit, eget tincidunt nibh.  {% endcomment %}
-
-                    {{user.profile.about}}
-                </p>
-
-                <br>
-
-                <h2 class="text-2xl font-semibold mb-2 ">Academic Information</h2>
-
-                <div class="flex">
-
-                    <!-- For Students -->
-                    <div class="flex-1 mb-4 mr-4"> <!-- flex-1 to take up available space, mr-4 for right margin -->
-                        <h3 class="text-md font-medium mb-1">Student Details</h3>
-                        <p class="max-w-md">
-                            Major: Computer Science<br>
-                            Year: Junior<br>
-                            Academic Achievements: Dean's List, Fall 2022
-                        </p>
-                    </div>
-
-                    <!-- For Faculty -->
-                    <div class="flex-1">
-                        <h3 class="text-md font-medium mb-1">Faculty Details</h3>
-                        <p class="max-w-md ">
-                            Department: Computer Science<br>
-                            Position: Assistant Professor<br>
-                            Areas of Expertise: Artificial Intelligence, Machine Learning
-                        </p>
-                    </div>
-
-                </div>
-                <br>
-
-                <h2 class="text-2xl font-semibold mb-2">Professional Experience</h2>
-                <p class="max-w  ">
-                    Assistant Professor - Computer Science, XYZ University (2018-present)<br>
-                    Ph.D. in Computer Science, ABC University (2015-2018)<br>
-                    Researcher at Institute of Technology, Research City (2012-2015)
-                </p>
-
-                <br>
-
-                <h2 class="text-2xl font-semibold mb-2">Interests and Hobbies</h2>
-
-
-
-                <div class="flex">
-                    <!-- For Interest -->
-                    <div class="flex-1 mb-4 mr-4"> <!-- flex-1 to take up available space, mr-4 for right margin -->
-                        <h3 class="text-md font-medium mb-1">Interest</h3>
-                        <li>Data Science</li>
-                        <li>Robotics</li>
-                        <li>Educational Technology</li>
-                    </div>
-
-                    <!-- For Hobbies -->
-                    <div class="flex-1 mb-4 mr-4"> <!-- flex-1 to take up available space, mr-4 for right margin -->
-                        <h3 class="text-md font-medium mb-1">Hobbies</h3>
-                        <li>Reading</li>
-                        <li>Hiking</li>
-                        <li>Playing the Guitar</li>
-                    </div>
-
-                </div>
+            <div class="mb-6">
+              <label for="email" class="block text-lg font-medium text-gray-400 mb-1">Email</label>
+              <input type="email" id="email" name="email"
+                class="w-full h-10 form-input rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300"
+                style="height: 50px;" value="{{ user.email }}">
             </div>
+            <div class="mb-6">
+              <label for="username" class="block text-lg font-medium text-gray-400 mb-1">Username</label>
+              <input type="text" id="username" name="username"
+                class="w-full h-10 form-input rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300"
+                style="height: 50px;" value="{{ user.username }}">
+            </div>
+            <div class="mb-6">
+              <label for="bio" class="block text-lg font-medium text-gray-400 mb-1">Bio</label>
+              <textarea id="bio" name="bio"
+                class="w-full form-textarea rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300"
+                style="height: 150px;">{{ user.profile.about }}</textarea>
+            </div>
+            <div class="mb-6">
+              <button type="submit" id="saveChangesBtn"
+                class="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hidden"
+                style="margin-bottom: 10px;">Save Changes</button>
+            </div>
+          </div>
         </div>
+      </form>
     </section>
+
+
+
+    <section class="w-3/5 rounded-lg ml-10 change-password-section" style="display: none;">
+      <!-- Change Password form -->
+      <div class="bg-gray-900 h-screen flex justify-center" style="margin-top: 100px;">
+        <div class="w-full max-w-md p-8 rounded-lg shadow-md">
+          <h2 class="text-2xl text-white font-bold" style="margin-left: -120px;">Change Password</h2><br>
+
+          <form class="update-password-form" method="post" action="{% url 'update_password' %}"
+            style="width: 900px; margin-left: -120px;">
+            {% csrf_token %}
+            <div class="mb-4">
+              <label for="oldpassword" class="block text-sm font-medium text-gray-400 mb-1">Old
+                Password</label>
+              <input type="password" id="oldpassword" name="oldpassword"
+                class="w-3/4 h-10 form-input mt-1 block rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300">
+            </div>
+
+            <div class="mb-4">
+              <label for="newpassword" class="block text-sm font-medium text-gray-400 mb-1">New
+                Password</label>
+              <input type="password" id="newpassword" name="newpassword"
+                class="w-3/4 h-10 form-input mt-1 block rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300">
+            </div>
+
+            <div class="mb-4">
+              <label for="confirmPassword" class="block text-sm font-medium text-gray-400 mb-1">Confirm
+                Password</label>
+              <input type="password" id="confirmPassword" name="confirmPassword"
+                class="w-3/4 h-10 form-input mt-1 block rounded-md border-gray-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-800 text-gray-300">
+            </div>
+
+            <div class="mb-4">
+              <button type="submit"
+                class="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Update
+                Password</button>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+
+  <script>
+    // Function to toggle read-only state of input fields
+    function toggleReadOnlyState(fields, state) {
+      fields.forEach(field => {
+        field.readOnly = state;
+      });
+    }
+
+    // Function to toggle visibility of Save Changes button
+    function toggleSaveChangesButtonVisibility(button, isVisible) {
+      if (isVisible) {
+        button.classList.remove('hidden');
+      } else {
+        button.classList.add('hidden');
+      }
+    }
+
+    // Edit Profile button click event listener
+    document.getElementById('editProfileBtn').addEventListener('click', function () {
+      // Get all input fields and the Save Changes button
+      const inputFields = document.querySelectorAll('.profile-form input, .profile-form textarea');
+      const saveChangesButton = document.getElementById('saveChangesBtn');
+
+      // Toggle read-only state of input fields
+      toggleReadOnlyState(inputFields, false);
+
+      // Show the Save Changes button
+      toggleSaveChangesButtonVisibility(saveChangesButton, true);
+
+      // Focus on the first input field
+      inputFields[0].focus();
+    });
+
+    // Save Changes button click event listener
+    document.getElementById('saveChangesBtn').addEventListener('click', function () {
+      // Get all input fields and the Save Changes button
+      const inputFields = document.querySelectorAll('.profile-form input, .profile-form textarea');
+      const saveChangesButton = document.getElementById('saveChangesBtn');
+
+      // Toggle read-only state of input fields
+      toggleReadOnlyState(inputFields, true);
+
+      // Hide the Save Changes button
+      toggleSaveChangesButtonVisibility(saveChangesButton, false);
+
+      // You can add logic here to save the changes
+    });
+
+  </script>
+
+  <script>
+    function confirmLogout() {
+      if (confirm("Are you sure you want to log out?")) {
+        // Perform logout action here, like redirecting to logout URL
+        // For example:
+        window.location.href = "logout"; // Replace "/logout" with your actual logout URL
+      }
+    }
+  </script>
 </body>
 
 </html>

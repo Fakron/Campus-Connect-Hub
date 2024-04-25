@@ -74,8 +74,6 @@ def question_detail_view(request, pk):
 
         comments_with_upvotes.append({'comment': comment, 'upvote_count': upvote_count, 'comment_id': comment.id})
 
-    
-    
     if request.method == 'POST':
         content = request.POST.get('content')
         Comment.objects.create(question=question, user=request.user, content=content)
@@ -87,7 +85,7 @@ def question_detail_view(request, pk):
         'liked': liked,
         'total_answers': total_answers,
         'comments_with_upvotes': comments_with_upvotes,
-        'comments': comments  # Pass the comments queryset to the template
+        'comments': comments  
     }
     return render(request, 'Forum/questiondetail.html', context)
 
@@ -105,8 +103,6 @@ def reply_comment_view(request, comment_id):
             parent_comment=parent_comment
         )
         return redirect('Questiondetail', pk=parent_comment.question.pk)
-    # Handle other cases or render appropriate response if needed
-
 
         
 @login_required(login_url='login')
@@ -137,13 +133,13 @@ def create_question(request):
 
             # Save the question again to update the many-to-many relationship
             question.save()
-            return redirect('home')
+            return redirect('Questionlist')
     else:
         form = QuestionForm()
         
     context = {
         'form': form,
-        'categories': categories  # Make sure categories are included in the context
+        'categories': categories 
     }
     return render(request, 'Forum/createquestion.html', context=context)
 

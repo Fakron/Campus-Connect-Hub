@@ -722,11 +722,6 @@ video {
   margin-right: auto;
 }
 
-.my-12 {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
-
 .my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
@@ -735,21 +730,6 @@ video {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-.mx-\[2vw\] {
-  margin-left: 2vw;
-  margin-right: 2vw;
-}
-
-.mx-\[2vh\] {
-  margin-left: 2vh;
-  margin-right: 2vh;
-}
-
-.mx-\[200px\] {
-  margin-left: 200px;
-  margin-right: 200px;
 }
 
 .-ml-\[20px\] {
@@ -840,6 +820,10 @@ video {
   margin-left: 2.25rem;
 }
 
+.ml-\[750px\] {
+  margin-left: 750px;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -882,6 +866,10 @@ video {
 
 .mr-8 {
   margin-right: 2rem;
+}
+
+.mr-\[5px\] {
+  margin-right: 5px;
 }
 
 .ms-1 {
@@ -930,66 +918,6 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.ml-\[200px\] {
-  margin-left: 200px;
-}
-
-.ml-\[600px\] {
-  margin-left: 600px;
-}
-
-.ml-\[900px\] {
-  margin-left: 900px;
-}
-
-.ml-\[800px\] {
-  margin-left: 800px;
-}
-
-.ml-\[00px\] {
-  margin-left: 00px;
-}
-
-.ml-\[700px\] {
-  margin-left: 700px;
-}
-
-.ml-\[750px\] {
-  margin-left: 750px;
-}
-
-.mr-\[30px\] {
-  margin-right: 30px;
-}
-
-.mr-\[10px\] {
-  margin-right: 10px;
-}
-
-.mr-\[9px\] {
-  margin-right: 9px;
-}
-
-.mr-\[8px\] {
-  margin-right: 8px;
-}
-
-.mr-\[7px\] {
-  margin-right: 7px;
-}
-
-.mr-\[3px\] {
-  margin-right: 3px;
-}
-
-.mr-\[4px\] {
-  margin-right: 4px;
-}
-
-.mr-\[5px\] {
-  margin-right: 5px;
 }
 
 .block {
@@ -1180,22 +1108,6 @@ video {
   width: 100vw;
 }
 
-.w-\[200px\] {
-  width: 200px;
-}
-
-.w-\[1px\] {
-  width: 1px;
-}
-
-.w-1 {
-  width: 0.25rem;
-}
-
-.w-24 {
-  width: 6rem;
-}
-
 .max-w-4xl {
   max-width: 56rem;
 }
@@ -1333,16 +1245,16 @@ video {
   gap: 0.75rem;
 }
 
+.gap-4 {
+  gap: 1rem;
+}
+
 .gap-6 {
   gap: 1.5rem;
 }
 
 .gap-8 {
   gap: 2rem;
-}
-
-.gap-4 {
-  gap: 1rem;
 }
 
 .space-x-1 > :not([hidden]) ~ :not([hidden]) {
@@ -1481,11 +1393,6 @@ video {
 
 .border-solid {
   border-style: solid;
-}
-
-.border-\[\#E4E4E7\] {
-  --tw-border-opacity: 1;
-  border-color: rgb(228 228 231 / var(--tw-border-opacity));
 }
 
 .border-black {
@@ -2352,11 +2259,6 @@ video {
   .lg\:mx-10 {
     margin-left: 2.5rem;
     margin-right: 2.5rem;
-  }
-
-  .lg\:my-20 {
-    margin-top: 5rem;
-    margin-bottom: 5rem;
   }
 
   .lg\:mb-1 {

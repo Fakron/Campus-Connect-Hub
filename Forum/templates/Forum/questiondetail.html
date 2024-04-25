@@ -421,22 +421,7 @@
   }
 </script>
 
-<script>
-  function validateForm() {
-    var content = document.getElementById('editor').value.trim();
-    if (content === '') {
-      alert('Please write your answer before submitting.');
-      return false; // Prevent form submission
-    }
-    return true; // Allow form submission
-  }
-</script>
 
-<script>
-  document.getElementById('publishButton').addEventListener('click', function () {
-    document.getElementById('answerForm').submit();
-  });
-</script>
 <script>
   function toggleDropdown(id) {
     var dropdown = document.getElementById(id);
@@ -447,6 +432,27 @@
     var replyForm = document.getElementById('replyForm' + commentId);
     replyForm.classList.toggle('hidden');
   }
+</script>
+
+<script>
+    document.getElementById('publishButton').addEventListener('click', function () {
+        if (!validateForm()) {
+            return;
+        }
+        // If validation passes, submit the form
+        document.getElementById('answerForm').submit();
+    });
+
+    function validateForm() {
+        var content = document.getElementById('editor').value.trim();
+        if (content === '') {
+            alert('Please write your answer before submitting.');
+            return false; 
+        }
+        return true;
+    }
+
+    
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -475,25 +481,5 @@
   });
 </script>
 
-<!-- <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var button = document.getElementById("dropdownDefaultButton");
-    var dropdownMenu = document.getElementById("dropdownMenu");
-
-    button.addEventListener("click", function (event) {
-      event.stopPropagation(); // Prevent the event from bubbling up
-
-      // Toggle the visibility of the dropdown menu
-      dropdownMenu.classList.toggle("hidden");
-    });
-
-    // Close the dropdown menu when clicking outside of it
-    document.addEventListener("click", function (event) {
-      if (!button.contains(event.target) && !dropdownMenu.contains(event.target)) {
-        dropdownMenu.classList.add("hidden");
-      }
-    });
-  });
-</script> -->
 
 {% endblock %}

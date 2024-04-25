@@ -8,7 +8,6 @@ urlpatterns = [
     
     path('question/new',create_question,name="create_question"),
     
-    
     path('question/<int:pk>/update',update_question,name="Questionupdate"),
     path('question/<int:pk>/delete',QuestionDeleteView.as_view(),name="Questiondelete"),
     
