@@ -25,7 +25,7 @@
                 <div class="mb-4">
                     <label for="topic" class="block text-sm font-medium text-gray-400 mb-1">Topic</label>
                     <select id="topic" name="topic" class="form-select w-3/4 h-10 mt-1 block py-2 px-3 border border-gray-600 bg-gray-800 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-300">
-                        <option value="{{ room.topic.id }}" class="text-gray-300" selected>{{ room.topic.name }}</option>
+                        <option value="{{ room.topic.name }}" class="text-gray-300" selected>{{ room.topic.name }}</option>
                         {% for topic in topics %}
                             {% if topic.id != room.topic.id %}
                                 <option value="{{ topic.name }}" class="text-gray-300">{{ topic.name }}</option>

@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView, DetailView , CreateView, UpdateView, DeleteView
+from django.views.generic import DeleteView
 
 from Community.models import Room
 from .models import Question, Comment, Category, Tag

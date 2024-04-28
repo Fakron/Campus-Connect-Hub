@@ -89,31 +89,23 @@ def createRoom(request):
         print(request.POST)
         if form.is_valid():
             room = form.save(commit=False)
-            room.host = request.user  # Set the host user to the current logged-in user
-            
-            room.unique_id = uuid.uuid4().hex[:6]  # Generate a random 6-character unique ID
-            
+            room.host = request.user
+            room.unique_id = uuid.uuid4().hex[:6]
             topic_name = request.POST.get('topic')
-            print("Topic name",topic_name)
-            print("room",room)
             topic, created = Topic.objects.get_or_create(name=topic_name)
-            print(topic)
-            
-            if topic is not None:  # Check if topic is not None before setting it on room
+            if topic is not None:
                 room.topic = topic
-            else:
-                print("hello")
-
-            # Access the uploaded image file through form.cleaned_data
             uploaded_image = form.cleaned_data['image']
-            # Now, save the uploaded image file to your storage
-            room.image = uploaded_image  # Assign the image file to the room object
-            print(uploaded_image)
-            room.save()  # Save the room object to persist the changes
-            return redirect('community')  # Redirect to some URL after room creation
+            room.image = uploaded_image
+            room.save()  # Save the room object first
+            room.participant.add(request.user)  # Set the many-to-many relationship after saving
+            return redirect('community')
+
     else:
         form = RoomForm()
     return render(request, 'Community/createcommunity.html', {'form': form, 'topics': topics})
+
+
 
 
 @login_required(login_url='login')

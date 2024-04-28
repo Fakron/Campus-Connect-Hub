@@ -41,7 +41,7 @@ def user_register(request):
         user.save()
 
         # Create profile for the user
-        profile = Profile.objects.create(user=user,about=about)
+        profile = Profile.objects.create(user=user)
         profile.save()
 
         # Render registration form with success message
