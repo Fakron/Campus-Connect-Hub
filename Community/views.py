@@ -76,9 +76,8 @@ def room(request, pk):
 def join_room(request, pk):
     room = Room.objects.get(id=pk)
     if request.user not in room.participant.all():
-        # User is not joined, so add them to the participant list
         room.participant.add(request.user)
-    return redirect('community')  # Redirect back to the community page
+    return redirect('community') 
 
 
 @login_required(login_url='login')
@@ -169,15 +168,9 @@ def deleteRoom(request, pk):
 
 @login_required(login_url='login')
 def deleteMessage(request,pk):
-    
-    message = Message.objects.get(id=pk)
-    if request.user != message.user:
-        return HttpResponse('You are not allowed here')
-
-    if request.method == "POST":
-        message.delete()
-        return redirect('community')
-    return render(request,'Community/delete.html',{'obj':message})
+    message = get_object_or_404(Message,pk=pk)
+    message.delete()
+    return JsonResponse({'message': 'Message deleted successfully'})
 
 @login_required(login_url='login')
 def update_message(request, pk):
