@@ -141,7 +141,10 @@
 
                     </div>
 
-                    <div class="text-gray-400 font-semibold mt-5">{{room.created}} ago</div>
+                    <div class="text-gray-400 font-semibold mt-2">
+                        <button onclick="confirmLeave('{{ room.id }}')"
+                            class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Leave</button>
+                    </div>
                 </div>
             </div>
             <div
@@ -368,40 +371,50 @@
 </script>
 
 <script>
-   document.querySelectorAll('.delete-btn').forEach(button => {
-    button.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default button behavior
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default button behavior
 
-        const messageIdValue = this.getAttribute('value');
-        
-        const updateUrl = "{% url 'delete_message' pk='__pk__' %}".replace('__pk__', messageIdValue);
+            const messageIdValue = this.getAttribute('value');
 
-        // Show confirmation dialog
-        if (confirm('Are you sure you want to delete this message?')) {
-            // Send an AJAX request to delete the message
-            fetch(updateUrl, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ message_id: messageIdValue })
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Handle success, like removing the message from the DOM
-                    this.closest('.thread').remove();
-                } else {
-                    // Handle errors
-                    console.error('Failed to delete message');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
+            const updateUrl = "{% url 'delete_message' pk='__pk__' %}".replace('__pk__', messageIdValue);
+
+            // Show confirmation dialog
+            if (confirm('Are you sure you want to delete this message?')) {
+                // Send an AJAX request to delete the message
+                fetch(updateUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message_id: messageIdValue })
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Handle success, like removing the message from the DOM
+                            this.closest('.thread').remove();
+                        } else {
+                            // Handle errors
+                            console.error('Failed to delete message');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
     });
-});
 
 </script>
+
+<script>
+    function confirmLeave(roomId) {
+        if (confirm("Are you sure you want to leave this room?")) {
+            window.location.href = "{% url 'leave-room' pk=room.pk %}";
+        }
+    }
+</script>
+
+
 
 
 

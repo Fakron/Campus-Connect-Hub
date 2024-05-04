@@ -12,7 +12,7 @@ urlpatterns = [
     path('delete-message/<str:pk>',views.deleteMessage,name="delete-message"),
     path('update_message/<str:pk>/', views.update_message, name='update_message'),
     path('delete_message/<str:pk>/', views.deleteMessage, name='delete_message'),
-
+    path('leave-room/<str:pk>',views.leave_room,name="leave-room"),
     path('join/<str:unique_id>/', views.join_room_by_id, name='join_room_by_id'),
     
 ]

@@ -201,5 +201,25 @@ def update_message(request, pk):
     return JsonResponse({'error': 'Invalid request'}) 
 
 
+@login_required
+def leave_room(request, pk):
+    user = request.user
+    room = get_object_or_404(Room, pk=pk)
+    
+    # Remove user from the room participants
+    if user in room.participant.all():
+        room.participant.remove(user)
+        room.save()
+        
+        # Delete user's messages in the room
+        Message.objects.filter(room=room, user=user).delete()
+        
+        # Redirect user to community page after leaving the room
+        return redirect('community')  # Adjust the URL name to your community page URL
+    else:
+        return HttpResponse("You are not a participant of this room.")
+    
+
+
 
     
