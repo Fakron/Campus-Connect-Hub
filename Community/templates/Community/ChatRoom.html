@@ -219,7 +219,6 @@
         </div>
     </div>
 
-
     <div class="w-1/5 bg-gray-900 mr-8">
         <div class="rounded-lg bg-gray-800 ml-9 mt-5 h-auto flex flex-col">
             <div class="bg-gray-700 h-10 rounded-t-lg">
@@ -230,23 +229,26 @@
             <div class="p-4">
                 <ul>
                     {% for user in participants %}
-                    <!-- Example participant -->
                     <li class="flex items-center">
                         <img src="{{user.profile.image.url}}" alt="User 1" class="w-11 h-11 rounded-full mr-2">
                         <div>
-                            <h2 class="text-gray-500 text-lg font-normal">{{user.first_name}} {{user.last_name}}
-                            </h2>
-                            <p class="text-cyan-500 font-semibold">@{{user.username}}</p>
+                            <h2 class="text-gray-500 text-lg font-normal">{{user.first_name}} {{user.last_name}}</h2>
+                            <p class="text-cyan-500 font-semibold">@{{user.username}}
+
+                                {% if user == room.host %}
+                                <span class="text-yellow-500 ml-3" >(Owner)</span>
+                            {% endif %}
+                            </p>
+                            
                         </div>
                     </li>
                     <br>
-
                     {% endfor %}
-
                 </ul>
             </div>
         </div>
     </div>
+    
 
 </div>
 

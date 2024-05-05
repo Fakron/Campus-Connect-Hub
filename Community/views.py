@@ -214,8 +214,7 @@ def leave_room(request, pk):
         # Delete user's messages in the room
         Message.objects.filter(room=room, user=user).delete()
         
-        # Redirect user to community page after leaving the room
-        return redirect('community')  # Adjust the URL name to your community page URL
+        return redirect('community')  
     else:
         return HttpResponse("You are not a participant of this room.")
     
