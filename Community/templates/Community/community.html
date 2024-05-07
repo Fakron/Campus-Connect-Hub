@@ -225,4 +225,12 @@
 
 </div>
 
+{% if request.GET.joined_successfully %}
+    <script>
+        window.onload = function() {
+            alert("Joined successfully!");
+        };
+    </script>
+{% endif %}
+
 {% endblock %}

@@ -77,8 +77,7 @@ def join_room(request, pk):
     room = Room.objects.get(id=pk)
     if request.user not in room.participant.all():
         room.participant.add(request.user)
-    return redirect('community') 
-
+    return redirect(reverse('community') + '?joined_successfully=True')
 
 @login_required(login_url='login')
 def createRoom(request):
